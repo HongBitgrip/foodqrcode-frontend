@@ -2,10 +2,10 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 
-const LoginPage = () => {
+const UserAdd = () => {
   const { register, handleSubmit, errors } = useForm();
   const onSubmit = (data) => {
-    axios.post(`/login`, data).then((res) => {
+    axios.post("/users/add", data).then((res) => {
       console.log(res.data);
     });
   };
@@ -15,11 +15,26 @@ const LoginPage = () => {
       <div className="col-md-8">
         <div className="card">
           <div className="card-header">
-            <h5 className="title">Login</h5>
+            <h5 className="title">Sign Up</h5>
           </div>
           <div className="card-body">
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="row">
+                <div className="col-md-6 pr-1">
+                  <div className="form-group d-block">
+                    <label>User name</label>
+                    <input
+                      type="text"
+                      name="name"
+                      ref={register({ required: true })}
+                      className="form-control"
+                      placeholder="User name"
+                    />
+                    <p className="text-danger">
+                      {errors.name && "User name is required"}
+                    </p>
+                  </div>
+                </div>
                 <div className="col-md-6 pr-1">
                   <div className="form-group d-block">
                     <label>Email</label>
@@ -32,6 +47,36 @@ const LoginPage = () => {
                     />
                     <p className="text-danger">
                       {errors.email && "Email is required"}
+                    </p>
+                  </div>
+                </div>
+                <div className="col-md-6 pr-1">
+                  <div className="form-group d-block">
+                    <label>Address</label>
+                    <input
+                      type="text"
+                      name="address"
+                      ref={register({ required: true })}
+                      className="form-control"
+                      placeholder="Address"
+                    />
+                    <p className="text-danger">
+                      {errors.address && "Address is required"}
+                    </p>
+                  </div>
+                </div>
+                <div className="col-md-6 pr-1">
+                  <div className="form-group d-block">
+                    <label>Phone Number</label>
+                    <input
+                      type="text"
+                      name="phone"
+                      ref={register({ required: true })}
+                      className="form-control"
+                      placeholder="Phone Number"
+                    />
+                    <p className="text-danger">
+                      {errors.phone && "Phone Number is required"}
                     </p>
                   </div>
                 </div>
@@ -56,7 +101,7 @@ const LoginPage = () => {
                     <input
                       type="submit"
                       className="btn btn-primary"
-                      value="Login"
+                      value="Sign Up"
                     />
                   </div>
                 </div>
@@ -69,4 +114,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default UserAdd;
