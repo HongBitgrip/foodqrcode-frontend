@@ -6,7 +6,7 @@ const InputElement = ({ register, errors, name, type = "text" }) => {
   return (
     <div className="col-md-6 pr-1">
       <div className="form-group d-block">
-        <label>Email</label>
+        <label>{capitalizedName}</label>
         <input
           type={type}
           name={name}
