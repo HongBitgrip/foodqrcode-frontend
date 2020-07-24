@@ -7,6 +7,10 @@ import SubmitButton from "./SubmitButton";
 const AddingForm = ({ url, inputElements = [], buttonName, formName }) => {
   const { register, handleSubmit, errors } = useForm();
   const onSubmit = (data) => {
+    if (data.restaurantTypes) {
+      data.restaurantTypes = data.restaurantTypes.map((id) => ({ id }));
+    }
+    console.log(data);
     axios.post(url, data).then((res) => {
       console.log(res.data);
     });
@@ -29,6 +33,7 @@ const AddingForm = ({ url, inputElements = [], buttonName, formName }) => {
                     errors={errors}
                     name={element.name}
                     type={element.type}
+                    select={element.select}
                   />
                 ))}
                 <SubmitButton buttonName={buttonName} />

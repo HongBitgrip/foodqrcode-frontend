@@ -5,10 +5,12 @@ import Sidebar from "./components/Sidebar";
 import Header from "./components/Header";
 import NavBar from "./components/NavBar";
 import LoginPage from "./components/content/LoginPage";
-import { Link, Route, Router, Switch } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import UserAdd from "./components/content/UserAdd";
 import AdminAdd from "./components/content/AdminAdd";
 import RestaurantAdminAdd from "./components/content/RestaurantAdminAdd";
+import RestaurantTypeAdd from "./components/content/RestaurantTypeAdd";
+import RestaurantAdd from "./components/content/RestaurantAdd";
 
 function App() {
   return (
@@ -36,6 +38,16 @@ function App() {
           <Route path="/restaurant_admins/add">
             <div className="content">
               <RestaurantAdminAdd />
+            </div>
+          </Route>
+          <Route path="/restaurant_types/add">
+            <div className="content">
+              <RestaurantTypeAdd />
+            </div>
+          </Route>
+          <Route path="/restaurants/add">
+            <div className="content">
+              <RestaurantAdd />
             </div>
           </Route>
         </Switch>

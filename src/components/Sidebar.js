@@ -47,6 +47,12 @@ const Sidebar = () => {
           <li>
             <Link to="/restaurant_admins/add">Restaurant Admin Add</Link>
           </li>
+          <li>
+            <Link to="/restaurant_types/add">Restaurant Type Add</Link>
+          </li>
+          <li>
+            <Link to="/restaurants/add">Restaurant Add</Link>
+          </li>
         </ul>
       </div>
     </div>
