@@ -19,7 +19,7 @@ const AddingForm = ({ url, inputElements = [], buttonName, formName }) => {
 
   return (
     <div className="row">
-      <div className="col-md-8">
+      <div className="col-md-6">
         <div className="card">
           <div className="card-header">
             <h5 className="title">{formName}</h5>

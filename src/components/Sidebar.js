@@ -42,7 +42,10 @@ const Sidebar = () => {
             <Link to="/login">Login</Link>
           </li>
           <li>
-            <Link to="/admins/add">Admin Add</Link>
+            <Link to="/admins/add">Admin Accounts</Link>
+          </li>
+          <li>
+            <Link to="/admin/restaurants">Restaurants</Link>
           </li>
           <li>
             <Link to="/restaurant_admins/add">Restaurant Admin Add</Link>

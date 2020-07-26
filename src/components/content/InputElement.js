@@ -26,7 +26,7 @@ const InputElement = ({
   };
   const CustomTag = tagNameMap[type] || "input";
   return (
-    <div className="col-md-6 pr-1">
+    <div className="col-md-12 pr-1">
       <div className="form-group d-block">
         <label>{capitalizedName}</label>
         <CustomTag

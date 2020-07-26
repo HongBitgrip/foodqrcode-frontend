@@ -11,6 +11,7 @@ import AdminAdd from "./components/content/AdminAdd";
 import RestaurantAdminAdd from "./components/content/RestaurantAdminAdd";
 import RestaurantTypeAdd from "./components/content/RestaurantTypeAdd";
 import RestaurantAdd from "./components/content/RestaurantAdd";
+import Restaurants from "./components/content/Restaurants";
 
 function App() {
   return (
@@ -28,6 +29,11 @@ function App() {
           <Route path="/users/add">
             <div className="content">
               <UserAdd />
+            </div>
+          </Route>
+          <Route path="/admin/restaurants">
+            <div className="content">
+              <Restaurants />
             </div>
           </Route>
           <Route path="/admins/add">
