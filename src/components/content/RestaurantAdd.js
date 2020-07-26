@@ -9,7 +9,7 @@ const RestaurantAdd = () => {
 
   useEffect(() => {
     axios.get(getAllRestaurantTypesUrl).then((res) => {
-      console.log(res);
+      // console.log(res);
       setRestaurantTypes(
         res.data.map((type) => ({ id: type.id, name: type.name }))
       );

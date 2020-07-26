@@ -1,5 +1,5 @@
 import React from "react";
-import { capitalize } from "lodash";
+import { startCase, capitalize } from "lodash";
 
 /**
  *
@@ -19,7 +19,7 @@ const InputElement = ({
   type = "text",
   select = undefined,
 }) => {
-  const capitalizedName = capitalize(name);
+  const capitalizedName = capitalize(startCase(name));
   const tagNameMap = {
     textarea: "textarea",
     select: "select",

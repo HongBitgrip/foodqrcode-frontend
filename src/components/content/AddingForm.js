@@ -7,12 +7,13 @@ import SubmitButton from "./SubmitButton";
 const AddingForm = ({ url, inputElements = [], buttonName, formName }) => {
   const { register, handleSubmit, errors } = useForm();
   const onSubmit = (data) => {
+    // console.log("before change", data);
     if (data.restaurantTypes) {
       data.restaurantTypes = data.restaurantTypes.map((id) => ({ id }));
     }
-    console.log(data);
+    console.log("submit data", data);
     axios.post(url, data).then((res) => {
-      console.log(res.data);
+      console.log("response data", res.data);
     });
   };
 
