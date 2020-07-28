@@ -1,19 +1,19 @@
 import React from "react";
 import AddingForm from "./AddingForm";
 
-const LoginPage = () => {
+const AdminAdd = () => {
   const inputElements = [
     { name: "email" },
     { name: "password", type: "password" },
   ];
   return (
     <AddingForm
-      url={"/login"}
-      buttonName={"Login"}
+      url={"/admins/add"}
+      buttonName={"Add"}
       inputElements={inputElements}
-      formName={"Login"}
+      formName={"Admin add"}
     />
   );
 };
 
-export default LoginPage;
+export default AdminAdd;

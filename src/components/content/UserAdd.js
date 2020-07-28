@@ -1,19 +1,22 @@
 import React from "react";
 import AddingForm from "./AddingForm";
 
-const LoginPage = () => {
+const UserAdd = () => {
   const inputElements = [
+    { name: "name" },
     { name: "email" },
+    { name: "address" },
+    { name: "phone" },
     { name: "password", type: "password" },
   ];
   return (
     <AddingForm
-      url={"/login"}
+      url={"/users/add"}
       buttonName={"Login"}
       inputElements={inputElements}
-      formName={"Login"}
+      formName={"Sign Up"}
     />
   );
 };
 
-export default LoginPage;
+export default UserAdd;
