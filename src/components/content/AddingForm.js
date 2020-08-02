@@ -3,22 +3,25 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import InputElement from "./InputElement";
 import SubmitButton from "./SubmitButton";
+import { observer } from "mobx-react";
 
-const AddingForm = ({ url, inputElements = [], buttonName, formName }) => {
-  const { register, handleSubmit, errors } = useForm();
-  const onSubmit = (data) => {
-    // console.log("before change", data);
-    if (data.restaurantTypes) {
-      data.restaurantTypes = data.restaurantTypes.map((id) => ({ id }));
-    }
-    console.log("submit data", data);
-    axios.post(url, data).then((res) => {
-      console.log("response data", res.data);
-    });
-  };
+const AddingForm = observer(
+  ({ url, inputElements = [], buttonName, formName, storePushMethod }) => {
+    const { register, handleSubmit, errors } = useForm();
 
-  return (
-    <div className="row">
+    const onSubmit = (data) => {
+      // console.log("before change", data);
+      if (data.restaurantTypes) {
+        data.restaurantTypes = data.restaurantTypes.map((id) => ({ id }));
+      }
+      console.log("submit data", data);
+      axios.post(url, data).then((res) => {
+        console.log("response data", res.data);
+        storePushMethod(res.data);
+      });
+    };
+
+    return (
       <div className="col-md-6">
         <div className="card">
           <div className="card-header">
@@ -35,6 +38,7 @@ const AddingForm = ({ url, inputElements = [], buttonName, formName }) => {
                     name={element.name}
                     type={element.type}
                     select={element.select}
+                    defaultValue={element.defaultValue}
                   />
                 ))}
                 <SubmitButton buttonName={buttonName} />
@@ -43,8 +47,7 @@ const AddingForm = ({ url, inputElements = [], buttonName, formName }) => {
           </div>
         </div>
       </div>
-    </div>
-  );
-};
-
+    );
+  }
+);
 export default AddingForm;

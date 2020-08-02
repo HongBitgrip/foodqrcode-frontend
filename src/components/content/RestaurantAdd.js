@@ -1,47 +1,52 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 
 import AddingForm from "./AddingForm";
+import DataTable from "./DataTable";
+import { StoreContext } from "../../index";
+import { observer } from "mobx-react";
 
-const RestaurantAdd = () => {
-  const [restaurantTypes, setRestaurantTypes] = useState([]);
-  const getAllRestaurantTypesUrl = "/restaurant_types/all";
+const RestaurantAdd = observer(() => {
+  const store = useContext(StoreContext);
+  // const { editRestaurant } = store.restaurantState;
+  // const [restaurantTypes, setRestaurantTypes] = useState([]);
 
   useEffect(() => {
-    axios.get(getAllRestaurantTypesUrl).then((res) => {
-      // console.log(res);
-      setRestaurantTypes(
-        res.data.map((type) => ({ id: type.id, name: type.name }))
-      );
-    });
+    store.restaurantState.fetchRestaurantTypes();
   }, []);
-  const inputElements = [
-    { name: "name" },
-    {
-      name: "address",
-      type: "textarea",
-    },
-    {
-      name: "description",
-      type: "textarea",
-    },
-    {
-      name: "restaurantTypes",
-      type: "select",
-      select: {
-        multiple: true,
-        options: restaurantTypes,
-      },
-    },
-  ];
+  // const inputElements = [
+  //   { name: "name", defaultValue: editRestaurant.name },
+  //   {
+  //     name: "address",
+  //     type: "textarea",
+  //     defaultValue: editRestaurant.address,
+  //   },
+  //   {
+  //     name: "description",
+  //     type: "textarea",
+  //     defaultValue: editRestaurant.description,
+  //   },
+  //   {
+  //     name: "restaurantTypes",
+  //     type: "select",
+  //     select: {
+  //       multiple: true,
+  //       options: restaurantTypes,
+  //     },
+  //   },
+  // ];
   return (
-    <AddingForm
-      url={"/restaurants/add"}
-      buttonName={"Add"}
-      inputElements={inputElements}
-      formName={"Restaurant add"}
-    />
+    <div className="row">
+      <AddingForm
+        url={"/restaurants/add"}
+        buttonName={"Add"}
+        inputElements={store.restaurantState.inputElements}
+        formName={"Restaurant info"}
+        storePushMethod={store.restaurantState.addRestaurant}
+      />
+      <DataTable />
+    </div>
   );
-};
+});
 
 export default RestaurantAdd;
