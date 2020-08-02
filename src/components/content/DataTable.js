@@ -7,6 +7,8 @@ import { StoreContext } from "../../index";
 const DataTable = observer(() => {
   const store = useContext(StoreContext);
   const handleClick = (restaurantId) => {
+    store.restaurantState.editRestaurant = null; //to reset form
+    store.restaurantState.formReset();
     store.restaurantState.fetchEditRestaurant(restaurantId);
   };
 

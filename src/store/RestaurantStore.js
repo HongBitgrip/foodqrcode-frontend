@@ -6,20 +6,24 @@ export class RestaurantStore {
   restaurantList = [];
   editRestaurant = {};
   restaurantTypes = [];
+  formReset;
 
   //computed
   get inputElements() {
     return [
-      { name: "name", defaultValue: this.editRestaurant.name },
+      {
+        name: "name",
+        defaultValue: this.editRestaurant && this.editRestaurant.name,
+      },
       {
         name: "address",
         type: "textarea",
-        defaultValue: this.editRestaurant.address,
+        defaultValue: this.editRestaurant && this.editRestaurant.address,
       },
       {
         name: "description",
         type: "textarea",
-        defaultValue: this.editRestaurant.description,
+        defaultValue: this.editRestaurant && this.editRestaurant.description,
       },
       {
         name: "restaurantTypes",
@@ -27,7 +31,7 @@ export class RestaurantStore {
         select: {
           multiple: true,
           options: this.restaurantTypes,
-          selected: this.editRestaurant.restaurantTypes,
+          selected: this.editRestaurant && this.editRestaurant.restaurantTypes,
         },
       },
     ];
@@ -86,4 +90,5 @@ decorate(RestaurantStore, {
   inputElements: computed,
   fetchRestaurantTypes: action,
   restaurantTypes: observable,
+  formReset: observable,
 });

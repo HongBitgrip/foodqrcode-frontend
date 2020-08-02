@@ -1,14 +1,19 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import InputElement from "./InputElement";
 import SubmitButton from "./SubmitButton";
 import { observer } from "mobx-react";
+import { StoreContext } from "../../index";
 
 const AddingForm = observer(
   ({ url, inputElements = [], buttonName, formName, storePushMethod }) => {
-    const { register, handleSubmit, errors } = useForm();
+    const store = useContext(StoreContext);
+    const { register, handleSubmit, errors, reset } = useForm();
 
+    useEffect(() => {
+      store.restaurantState.formReset = reset;
+    });
     const onSubmit = (data) => {
       // console.log("before change", data);
       if (data.restaurantTypes) {
