@@ -7,6 +7,7 @@ export class RestaurantStore {
   editRestaurant = {};
   restaurantTypes = [];
   formReset;
+  isEdit;
 
   //computed
   get inputElements() {
@@ -91,4 +92,5 @@ decorate(RestaurantStore, {
   fetchRestaurantTypes: action,
   restaurantTypes: observable,
   formReset: observable,
+  isEdit: observable,
 });

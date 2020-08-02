@@ -6,17 +6,20 @@ import { StoreContext } from "../../index";
 
 const DataTable = observer(() => {
   const store = useContext(StoreContext);
-  const handleClick = (restaurantId) => {
+  const handleEditClick = (restaurantId) => {
+    store.restaurantState.isEdit = true;
     store.restaurantState.editRestaurant = null; //to reset form
     store.restaurantState.formReset();
     store.restaurantState.fetchEditRestaurant(restaurantId);
   };
 
   const addNew = () => {
+    store.restaurantState.isEdit = false;
+    store.restaurantState.formReset();
     store.restaurantState.editRestaurant = {
-      name: null,
-      address: null,
-      description: null,
+      name: "",
+      address: "",
+      description: "",
     };
   };
 
@@ -42,7 +45,7 @@ const DataTable = observer(() => {
             <td>{restaurant.name}</td>
             <td>
               <Button
-                onClick={() => handleClick(restaurant.id)}
+                onClick={() => handleEditClick(restaurant.id)}
                 variant="info"
                 className="btn-block"
               >

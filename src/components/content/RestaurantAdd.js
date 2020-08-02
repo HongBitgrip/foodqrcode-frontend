@@ -8,6 +8,10 @@ import { observer } from "mobx-react";
 
 const RestaurantAdd = observer(() => {
   const store = useContext(StoreContext);
+  const isEdit = store.restaurantState.isEdit;
+  const editRestaurantId =
+    store.restaurantState.editRestaurant &&
+    store.restaurantState.editRestaurant.id;
   // const { editRestaurant } = store.restaurantState;
   // const [restaurantTypes, setRestaurantTypes] = useState([]);
 
@@ -38,8 +42,11 @@ const RestaurantAdd = observer(() => {
   return (
     <div className="row">
       <AddingForm
-        url={"/restaurants/add"}
-        buttonName={"Add"}
+        url={
+          isEdit ? `restaurants/edit/${editRestaurantId}` : "/restaurants/add"
+        }
+        buttonName={isEdit ? "Edit" : "Add"}
+        buttonClass={isEdit ? "btn-info" : "btn-success"}
         inputElements={store.restaurantState.inputElements}
         formName={"Restaurant info"}
         storePushMethod={store.restaurantState.addRestaurant}

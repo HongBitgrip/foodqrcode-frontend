@@ -7,7 +7,14 @@ import { observer } from "mobx-react";
 import { StoreContext } from "../../index";
 
 const AddingForm = observer(
-  ({ url, inputElements = [], buttonName, formName, storePushMethod }) => {
+  ({
+    url,
+    inputElements = [],
+    buttonName,
+    buttonClass,
+    formName,
+    storePushMethod,
+  }) => {
     const store = useContext(StoreContext);
     const { register, handleSubmit, errors, reset } = useForm();
 
@@ -46,7 +53,10 @@ const AddingForm = observer(
                     defaultValue={element.defaultValue}
                   />
                 ))}
-                <SubmitButton buttonName={buttonName} />
+                <SubmitButton
+                  buttonClass={buttonClass}
+                  buttonName={buttonName}
+                />
               </div>
             </form>
           </div>
