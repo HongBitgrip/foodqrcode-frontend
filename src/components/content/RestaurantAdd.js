@@ -43,7 +43,7 @@ const RestaurantAdd = observer(() => {
     <div className="row">
       <AddingForm
         url={
-          isEdit ? `restaurants/edit/${editRestaurantId}` : "/restaurants/add"
+          isEdit ? `/restaurants/edit/${editRestaurantId}` : "/restaurants/add"
         }
         buttonName={isEdit ? "Edit" : "Add"}
         buttonClass={isEdit ? "btn-info" : "btn-success"}

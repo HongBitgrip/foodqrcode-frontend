@@ -54,7 +54,9 @@ export class RestaurantStore {
 
   //action
   addRestaurant(restaurant) {
-    this.restaurantList.push(restaurant);
+    if (!this.isEdit) {
+      this.restaurantList.push(restaurant);
+    }
   }
 
   //action
