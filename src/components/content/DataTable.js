@@ -3,6 +3,10 @@ import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
 import { observer } from "mobx-react";
 import { StoreContext } from "../../index";
+import { TiEdit } from "react-icons/ti";
+import { MdLibraryAdd } from "react-icons/md";
+
+import { MdDeleteForever } from "react-icons/md";
 
 const DataTable = observer(() => {
   const store = useContext(StoreContext);
@@ -34,7 +38,7 @@ const DataTable = observer(() => {
               variant="success"
               className="btn-block"
             >
-              Add
+              <MdLibraryAdd fontSize="large" />
             </Button>
           </th>
         </tr>
@@ -49,12 +53,12 @@ const DataTable = observer(() => {
                 variant="info"
                 className="btn-block"
               >
-                Edit
+                <TiEdit fontSize="large" />
               </Button>
             </td>
             <td>
               <Button variant="danger" className="btn-block">
-                Delete
+                <MdDeleteForever fontSize="large" />
               </Button>
             </td>
           </tr>
