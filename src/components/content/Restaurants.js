@@ -1,19 +1,9 @@
-import React, { useContext, useEffect } from "react";
+import React from "react";
 import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
 import RestaurantAdd from "./RestaurantAdd";
-import { StoreContext } from "../../index";
 
 const Restaurants = () => {
-  const store = useContext(StoreContext);
-  useEffect(() => {
-    store.uiState.setPageTitle("Restaurants management");
-  });
-
-  useEffect(() => {
-    store.restaurantState.fetchRestaurants();
-  });
-
   return (
     <div className="row">
       <div className="col-md-12">

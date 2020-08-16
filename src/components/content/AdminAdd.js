@@ -7,12 +7,13 @@ const AdminAdd = () => {
     { name: "password", type: "password" },
   ];
   return (
-    <AddingForm
-      url={"/admins/add"}
-      buttonName={"Add"}
-      inputElements={inputElements}
-      formName={"Admin add"}
-    />
+    <div></div>
+    // <AddingForm
+    //   url={"/admins/add"}
+    //   buttonName={"Add"}
+    //   inputElements={inputElements}
+    //   formName={"Admin add"}
+    // />
   );
 };
 

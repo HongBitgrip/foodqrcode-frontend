@@ -2,30 +2,20 @@ import React, { useContext } from "react";
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
 import { observer } from "mobx-react";
-import { StoreContext } from "../../index";
 import { TiEdit } from "react-icons/ti";
 import { MdLibraryAdd } from "react-icons/md";
-
 import { MdDeleteForever } from "react-icons/md";
+import axios from "axios";
+import { useRecoilState, useRecoilValue } from "recoil";
 
-const DataTable = observer(() => {
-  const store = useContext(StoreContext);
-  const handleEditClick = (restaurantId) => {
-    store.restaurantState.isEdit = true;
-    store.restaurantState.editRestaurant = null; //to reset form
-    store.restaurantState.formReset();
-    store.restaurantState.fetchEditRestaurant(restaurantId);
-  };
+import {
+  isEditState,
+  editRestaurantState,
+  restaurantListState,
+} from "./RestaurantAdd";
 
-  const addNew = () => {
-    store.restaurantState.isEdit = false;
-    store.restaurantState.formReset();
-    store.restaurantState.editRestaurant = {
-      name: "",
-      address: "",
-      description: "",
-    };
-  };
+const DataTable = observer(({ handleEditClick, handleAddClick }) => {
+  const restaurantList = useRecoilValue(restaurantListState);
 
   return (
     <Table className="col-md-6" striped bordered hover>
@@ -34,7 +24,7 @@ const DataTable = observer(() => {
           <th>Name</th>
           <th colSpan="2">
             <Button
-              onClick={() => addNew()}
+              onClick={() => handleAddClick()}
               variant="success"
               className="btn-block"
             >
@@ -44,7 +34,7 @@ const DataTable = observer(() => {
         </tr>
       </thead>
       <tbody>
-        {store.restaurantState.restaurantList.map((restaurant) => (
+        {restaurantList.map((restaurant) => (
           <tr key={restaurant.id}>
             <td>{restaurant.name}</td>
             <td>

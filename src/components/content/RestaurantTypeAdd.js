@@ -10,12 +10,13 @@ const RestaurantTypeAdd = () => {
     },
   ];
   return (
-    <AddingForm
-      url={"/restaurant_types/add"}
-      buttonName={"Add"}
-      inputElements={inputElements}
-      formName={"Restaurant type add"}
-    />
+    // <AddingForm
+    //   url={"/restaurant_types/add"}
+    //   buttonName={"Add"}
+    //   inputElements={inputElements}
+    //   formName={"Restaurant type add"}
+    // />
+    <div></div>
   );
 };
 

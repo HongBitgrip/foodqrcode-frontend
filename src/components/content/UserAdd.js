@@ -10,12 +10,13 @@ const UserAdd = () => {
     { name: "password", type: "password" },
   ];
   return (
-    <AddingForm
-      url={"/users/add"}
-      buttonName={"Login"}
-      inputElements={inputElements}
-      formName={"Sign Up"}
-    />
+    <div></div>
+    // <AddingForm
+    //   url={"/users/add"}
+    //   buttonName={"Login"}
+    //   inputElements={inputElements}
+    //   formName={"Sign Up"}
+    // />
   );
 };
 

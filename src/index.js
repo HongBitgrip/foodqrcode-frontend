@@ -7,15 +7,23 @@ import * as serviceWorker from "./serviceWorker";
 import { BrowserRouter } from "react-router-dom";
 import storeInstance from "./store/RootStore";
 import "mobx-react-lite/batchingForReactDom";
+import {
+  RecoilRoot,
+  atom,
+  selector,
+  useRecoilState,
+  useRecoilValue,
+} from "recoil";
 
-export const StoreContext = React.createContext(storeInstance);
+// export const StoreContext = React.createContext(storeInstance);
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-      <StoreContext.Provider value={storeInstance}>
+      <RecoilRoot>
         <App />
-      </StoreContext.Provider>
+      </RecoilRoot>
+      {/*</StoreContext.Provider>*/}
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById("root")

@@ -7,12 +7,13 @@ const LoginPage = () => {
     { name: "password", type: "password" },
   ];
   return (
-    <AddingForm
-      url={"/login"}
-      buttonName={"Login"}
-      inputElements={inputElements}
-      formName={"Login"}
-    />
+    <div></div>
+    // <AddingForm
+    //   url={"/login"}
+    //   buttonName={"Login"}
+    //   inputElements={inputElements}
+    //   formName={"Login"}
+    // />
   );
 };
 

@@ -30,12 +30,14 @@ const AdminAdd = () => {
     { name: "password", type: "password" },
   ];
   return (
-    <AddingForm
-      url={"/restaurant_admins/add"}
-      buttonName={"Add"}
-      inputElements={inputElements}
-      formName={"Restaurant admin add"}
-    />
+    <div></div>
+    // <AddingForm
+    //   url={"/restaurant_admins/add"}
+    //   buttonName={"Add"}
+    //   inputElements={inputElements}
+    //   formName={"Restaurant admin add"}
+    //   intialValues={{ inputElements: [] }}
+    // />
   );
 };
 
