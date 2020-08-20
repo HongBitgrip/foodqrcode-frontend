@@ -1,20 +1,13 @@
-import React, { useContext } from "react";
+import React from "react";
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
-import { observer } from "mobx-react";
 import { TiEdit } from "react-icons/ti";
-import { MdLibraryAdd } from "react-icons/md";
-import { MdDeleteForever } from "react-icons/md";
-import axios from "axios";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { MdDeleteForever, MdLibraryAdd } from "react-icons/md";
+import { useRecoilValue } from "recoil";
 
-import {
-  isEditState,
-  editRestaurantState,
-  restaurantListState,
-} from "./RestaurantAdd";
+import { restaurantListState } from "./RestaurantAdd";
 
-const DataTable = observer(({ handleEditClick, handleAddClick }) => {
+const DataTable = ({ handleEditClick, handleAddClick }) => {
   const restaurantList = useRecoilValue(restaurantListState);
 
   return (
@@ -56,6 +49,6 @@ const DataTable = observer(({ handleEditClick, handleAddClick }) => {
       </tbody>
     </Table>
   );
-});
+};
 
 export default DataTable;

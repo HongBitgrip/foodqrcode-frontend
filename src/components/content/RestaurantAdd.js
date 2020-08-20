@@ -1,13 +1,15 @@
 import axios from "axios";
 import React, { useEffect } from "react";
 import { atom, useRecoilState } from "recoil";
+import Joi from "joi-browser";
 import { Field, Form, withFormik } from "formik";
-import * as Yup from "yup";
+import { object, string, array } from "yup";
 import DataTable from "./DataTable";
 import AddingForm from "./AddingForm";
 import SubmitButton from "./SubmitButton";
 import InputWrapper from "./InputWrapper";
 import MySelect from "./MySelect";
+import useFormMethods from "../common/useFormMethods";
 
 export const editRestaurantState = atom({
   key: "editRestaurantState",
@@ -59,17 +61,17 @@ const RestaurantAdd = () => {
     });
   }, []);
 
-  const addRestaurantSchema = Yup.object().shape({
-    name: Yup.string().required("Name is required"),
-    address: Yup.string().required("Address is required"),
-    description: Yup.string().required("Description is required"),
-    restaurantTypes: Yup.array()
+  const addRestaurantSchema = object({
+    name: string().required("Name is required"),
+    address: string().required("Address is required"),
+    description: string().required("Description is required"),
+    restaurantTypes: array()
       .ensure()
       .min(1, "Pick at least 1 type")
       .of(
-        Yup.object().shape({
-          label: Yup.string().required(),
-          value: Yup.string().required(),
+        object().shape({
+          label: string().required(),
+          value: string().required(),
         })
       ),
   });
@@ -81,7 +83,7 @@ const RestaurantAdd = () => {
     restaurantTypes: [],
   };
 
-  const submitHandler = (values) => {
+  const doSubmit = (values) => {
     const url = isEdit
       ? `/restaurants/edit/${editRestaurant.id}`
       : "/restaurants/add";
@@ -97,84 +99,13 @@ const RestaurantAdd = () => {
     });
   };
 
-  const formEnhancer = withFormik({
-    mapPropsToValues: (outerProps) => ({
-      name: outerProps.restaurant.name,
-      address: outerProps.restaurant.address,
-      description: outerProps.restaurant.description,
-      restaurantTypes: outerProps.restaurant.restaurantTypes,
-    }),
-    validationSchema: addRestaurantSchema,
-    handleSubmit: submitHandler,
-    displayName: "EditRestaurantForm",
-  });
-
-  const MyForm = ({
-    errors,
-    touched,
-    values,
-    setFieldValue,
-    setFieldTouched,
-  }) => (
-    <Form>
-      <InputWrapper
-        errorMessage={errors.name && touched.name ? errors.name : null}
-      >
-        <label htmlFor="name">Name</label>
-        <Field name="name" className="form-control" placeholder="Enter name" />
-      </InputWrapper>
-
-      <InputWrapper
-        errorMessage={errors.address && touched.address ? errors.address : null}
-      >
-        <label htmlFor="address">Address</label>
-        <Field
-          name="address"
-          as="textarea"
-          className="form-control rounded border"
-          placeholder="Enter address"
-        />
-      </InputWrapper>
-
-      <InputWrapper
-        errorMessage={
-          errors.description && touched.description ? errors.description : null
-        }
-      >
-        <label htmlFor="description">Description</label>
-        <Field
-          name="description"
-          as="textarea"
-          className="form-control rounded border"
-          placeholder="Enter description"
-        />
-      </InputWrapper>
-
-      <InputWrapper
-        errorMessage={
-          errors.restaurantTypes && touched.restaurantTypes
-            ? errors.restaurantTypes
-            : null
-        }
-      >
-        <label htmlFor="restaurantTypes">Restaurant types</label>
-        <MySelect
-          value={values.restaurantTypes}
-          selectName="restaurantTypes"
-          options={restaurantTypes}
-          multi={true}
-          onChange={setFieldValue}
-          onBlur={setFieldTouched}
-        />
-      </InputWrapper>
-      <SubmitButton
-        buttonName={isEdit ? "Edit" : "Add"}
-        buttonClass={isEdit ? "btn-info" : "btn-success"}
-      />
-    </Form>
-  );
-
-  const MyEnhancedForm = formEnhancer(MyForm);
+  const [
+    handleSubmit,
+    handleChange,
+    renderButton,
+    renderInput,
+    renderSelect,
+  ] = useFormMethods(initialValues, addRestaurantSchema, doSubmit);
 
   const handleEditClick = (restaurantId) => {
     setIsEdit(true);
@@ -198,7 +129,13 @@ const RestaurantAdd = () => {
   return (
     <div className="row">
       <AddingForm formName="Restaurant info">
-        <MyEnhancedForm restaurant={isEdit ? editRestaurant : initialValues} />
+        <form onSubmit={handleSubmit}>
+          {renderInput("name", "Name")}
+          {renderInput("address", "Address", "textarea")}
+          {renderInput("description", "Description", "textarea")}
+          {renderSelect("restaurantTypes", "Restaurant Types", restaurantTypes)}
+          {renderButton(isEdit ? "Edit" : " Add")}
+        </form>
       </AddingForm>
       <DataTable
         handleEditClick={handleEditClick}

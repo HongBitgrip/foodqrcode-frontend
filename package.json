@@ -10,6 +10,8 @@
     "bootstrap": "^4.5.0",
     "formik": "^2.1.5",
     "http-proxy-middleware": "^0.21.0",
+    "joi": "^17.2.0",
+    "joi-browser": "^13.4.0",
     "lodash": "^4.17.19",
     "lodash.capitalize": "^4.2.1",
     "mobx": "^5.15.4",
