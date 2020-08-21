@@ -3,13 +3,9 @@ import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
 import { TiEdit } from "react-icons/ti";
 import { MdDeleteForever, MdLibraryAdd } from "react-icons/md";
-import { useRecoilValue } from "recoil";
 
-import { restaurantListState } from "./RestaurantAdd";
-
-const DataTable = ({ handleEditClick, handleAddClick }) => {
-  const restaurantList = useRecoilValue(restaurantListState);
-
+const DataTable = ({ handleEditClick, handleAddClick, itemList }) => {
+  console.log("Render Datatable");
   return (
     <Table className="col-md-6" striped bordered hover>
       <thead className="text-primary">
@@ -27,12 +23,12 @@ const DataTable = ({ handleEditClick, handleAddClick }) => {
         </tr>
       </thead>
       <tbody>
-        {restaurantList.map((restaurant) => (
-          <tr key={restaurant.id}>
-            <td>{restaurant.name}</td>
+        {itemList.map((item) => (
+          <tr key={item.id}>
+            <td>{item.name}</td>
             <td>
               <Button
-                onClick={() => handleEditClick(restaurant.id)}
+                onClick={() => handleEditClick(item.id)}
                 variant="info"
                 className="btn-block"
               >

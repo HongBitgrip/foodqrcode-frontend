@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { reach } from "yup";
 
 import Input from "./Input";
@@ -10,20 +10,16 @@ export default function useFormMethods(initialValues, schema, doSubmit) {
 
   const validate = () => {
     const options = { abortEarly: false };
-    // const { error } = Joi.validate(data, schema, options);
-    let error;
-    schema.validate(data, options).catch((err) => {
-      console.log("Form error", err);
-    });
-    if (!error) return null;
-
     const errors = {};
-    for (let item of error.details) errors[item.path[0]] = item.message;
+    try {
+      schema.validateSync(data, options);
+    } catch (err) {
+      for (let item of err.inner) errors[item.path] = item.message;
+    }
     return errors;
   };
 
   const validateProperty = (input) => {
-    console.log("Input", input);
     const { name, value } = input;
     let error = null;
     try {
@@ -38,7 +34,8 @@ export default function useFormMethods(initialValues, schema, doSubmit) {
     e.preventDefault();
 
     const errors = validate();
-    setErrors({ errors: errors || {} });
+    console.log(errors);
+    setErrors({ ...errors });
     if (errors) return;
 
     doSubmit(data);
@@ -57,18 +54,22 @@ export default function useFormMethods(initialValues, schema, doSubmit) {
     setErrors(newErrors);
   };
 
-  function renderButton(label) {
+  function renderButton(label, appendClass) {
     return (
-      <button disabled={errors} className="btn btn-primary">
+      <button
+        onClick={handleSubmit}
+        className={`btn btn-block ${appendClass} mt-4`}
+      >
         {label}
       </button>
     );
   }
 
-  function renderInput(name, label, type = "text") {
+  function renderInput(name, label, placeHolder, type = "text") {
     return (
       <Input
         type={type}
+        placeholder={placeHolder}
         name={name}
         value={data[name]}
         label={label}
@@ -91,5 +92,12 @@ export default function useFormMethods(initialValues, schema, doSubmit) {
     );
   }
 
-  return [handleSubmit, handleChange, renderButton, renderInput, renderSelect];
+  return [
+    handleSubmit,
+    renderButton,
+    renderInput,
+    renderSelect,
+    setData,
+    setErrors,
+  ];
 }

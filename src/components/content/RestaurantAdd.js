@@ -1,49 +1,19 @@
 import axios from "axios";
-import React, { useEffect } from "react";
-import { atom, useRecoilState } from "recoil";
-import Joi from "joi-browser";
-import { Field, Form, withFormik } from "formik";
-import { object, string, array } from "yup";
+import React, { useEffect, useState } from "react";
+import { array, object, string } from "yup";
 import DataTable from "./DataTable";
 import AddingForm from "./AddingForm";
-import SubmitButton from "./SubmitButton";
-import InputWrapper from "./InputWrapper";
-import MySelect from "./MySelect";
 import useFormMethods from "../common/useFormMethods";
 
-export const editRestaurantState = atom({
-  key: "editRestaurantState",
-  default: {},
-});
-export const restaurantListState = atom({
-  key: "restaurantListState",
-  default: [],
-});
-export const restaurantTypesState = atom({
-  key: "restaurantTypesState",
-  default: [],
-});
-export const isEditState = atom({
-  key: "isEditState",
-  default: false,
-});
-
 const RestaurantAdd = () => {
-  const [editRestaurant, setEditRestaurant] = useRecoilState(
-    editRestaurantState
-  );
+  const [restaurantList, setRestaurantList] = useState([]);
 
-  const [restaurantList, setRestaurantList] = useRecoilState(
-    restaurantListState
-  );
+  const [restaurantTypes, setRestaurantTypes] = useState([]);
 
-  const [restaurantTypes, setRestaurantTypes] = useRecoilState(
-    restaurantTypesState
-  );
-
-  const [isEdit, setIsEdit] = useRecoilState(isEditState);
+  const [editId, setEditId] = useState("");
 
   useEffect(() => {
+    console.log("Fetch restaurants");
     const url = "/restaurants/all";
     axios.get(url).then((res) => {
       setRestaurantList([...res.data]);
@@ -51,6 +21,7 @@ const RestaurantAdd = () => {
   }, []);
 
   useEffect(() => {
+    console.log("Fetch restaurant types");
     const getAllRestaurantTypesUrl = "/restaurant_types/all";
     axios.get(getAllRestaurantTypesUrl).then((res) => {
       const typeData = res.data.map((type) => ({
@@ -76,17 +47,8 @@ const RestaurantAdd = () => {
       ),
   });
 
-  const initialValues = {
-    name: "",
-    address: "",
-    description: "",
-    restaurantTypes: [],
-  };
-
   const doSubmit = (values) => {
-    const url = isEdit
-      ? `/restaurants/edit/${editRestaurant.id}`
-      : "/restaurants/add";
+    const url = editId ? `/restaurants/edit/${editId}` : "/restaurants/add";
     //Change the data to match the endPoint
     const valuesClone = { ...values };
     valuesClone.restaurantTypes = valuesClone.restaurantTypes.map((type) => ({
@@ -95,51 +57,70 @@ const RestaurantAdd = () => {
     }));
     axios.post(url, valuesClone).then((res) => {
       // console.log(res.data);
-      !isEdit && setRestaurantList([...restaurantList, res.data]);
+      !editId && setRestaurantList([...restaurantList, res.data]);
     });
   };
 
+  const initialValues = {
+    name: "",
+    address: "",
+    description: "",
+    restaurantTypes: [],
+  };
   const [
     handleSubmit,
-    handleChange,
     renderButton,
     renderInput,
     renderSelect,
+    setData,
+    setErrors,
   ] = useFormMethods(initialValues, addRestaurantSchema, doSubmit);
 
   const handleEditClick = (restaurantId) => {
-    setIsEdit(true);
+    setEditId(restaurantId);
     const url = `/restaurants/edit/${restaurantId}`;
     axios.get(url).then((res) => {
       console.log("Edit restaurant", res.data);
-      setEditRestaurant({
+      setData({
         ...res.data,
         restaurantTypes: res.data.restaurantTypes.map((type) => ({
           value: type.id,
           label: type.name,
         })),
       });
+      setErrors({});
     });
   };
 
   const handleAddClick = () => {
-    setIsEdit(false);
+    setEditId("");
+    setData(initialValues);
+    setErrors({});
   };
 
   return (
     <div className="row">
       <AddingForm formName="Restaurant info">
         <form onSubmit={handleSubmit}>
-          {renderInput("name", "Name")}
-          {renderInput("address", "Address", "textarea")}
-          {renderInput("description", "Description", "textarea")}
+          {renderInput("name", "Name", "Name..")}
+          {renderInput("address", "Address", "Adress...", "textarea")}
+          {renderInput(
+            "description",
+            "Description",
+            "Description...",
+            "textarea"
+          )}
           {renderSelect("restaurantTypes", "Restaurant Types", restaurantTypes)}
-          {renderButton(isEdit ? "Edit" : " Add")}
+          {renderButton(
+            editId ? "Edit" : " Add",
+            editId ? "btn-info" : "btn-primary"
+          )}
         </form>
       </AddingForm>
       <DataTable
         handleEditClick={handleEditClick}
         handleAddClick={handleAddClick}
+        itemList={restaurantList}
       />
     </div>
   );
