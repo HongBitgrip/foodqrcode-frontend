@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import AddingForm from "./AddingForm";
+import FormOuter from "./FormOuter";
 import axios from "axios";
 
 const AdminAdd = () => {
@@ -31,7 +31,7 @@ const AdminAdd = () => {
   ];
   return (
     <div></div>
-    // <AddingForm
+    // <FormOuter
     //   url={"/restaurant_admins/add"}
     //   buttonName={"Add"}
     //   inputElements={inputElements}

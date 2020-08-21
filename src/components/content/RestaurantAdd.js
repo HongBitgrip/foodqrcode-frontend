@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { array, object, string } from "yup";
 import DataTable from "./DataTable";
-import AddingForm from "./AddingForm";
+import FormOuter from "./FormOuter";
 import useFormMethods from "../common/useFormMethods";
 
 const RestaurantAdd = () => {
@@ -13,7 +13,6 @@ const RestaurantAdd = () => {
   const [editId, setEditId] = useState("");
 
   useEffect(() => {
-    console.log("Fetch restaurants");
     const url = "/restaurants/all";
     axios.get(url).then((res) => {
       setRestaurantList([...res.data]);
@@ -21,7 +20,6 @@ const RestaurantAdd = () => {
   }, []);
 
   useEffect(() => {
-    console.log("Fetch restaurant types");
     const getAllRestaurantTypesUrl = "/restaurant_types/all";
     axios.get(getAllRestaurantTypesUrl).then((res) => {
       const typeData = res.data.map((type) => ({
@@ -100,7 +98,7 @@ const RestaurantAdd = () => {
 
   return (
     <div className="row">
-      <AddingForm formName="Restaurant info">
+      <FormOuter formName="Restaurant info">
         <form onSubmit={handleSubmit}>
           {renderInput("name", "Name", "Name..")}
           {renderInput("address", "Address", "Adress...", "textarea")}
@@ -116,7 +114,7 @@ const RestaurantAdd = () => {
             editId ? "btn-info" : "btn-primary"
           )}
         </form>
-      </AddingForm>
+      </FormOuter>
       <DataTable
         handleEditClick={handleEditClick}
         handleAddClick={handleAddClick}

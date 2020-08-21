@@ -5,7 +5,6 @@ import { TiEdit } from "react-icons/ti";
 import { MdDeleteForever, MdLibraryAdd } from "react-icons/md";
 
 const DataTable = ({ handleEditClick, handleAddClick, itemList }) => {
-  console.log("Render Datatable");
   return (
     <Table className="col-md-6" striped bordered hover>
       <thead className="text-primary">

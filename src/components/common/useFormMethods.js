@@ -34,7 +34,6 @@ export default function useFormMethods(initialValues, schema, doSubmit) {
     e.preventDefault();
 
     const errors = validate();
-    console.log(errors);
     setErrors({ ...errors });
     if (errors) return;
 

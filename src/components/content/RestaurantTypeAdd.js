@@ -1,5 +1,5 @@
 import React from "react";
-import AddingForm from "./AddingForm";
+import FormOuter from "./FormOuter";
 
 const RestaurantTypeAdd = () => {
   const inputElements = [
@@ -10,7 +10,7 @@ const RestaurantTypeAdd = () => {
     },
   ];
   return (
-    // <AddingForm
+    // <FormOuter
     //   url={"/restaurant_types/add"}
     //   buttonName={"Add"}
     //   inputElements={inputElements}

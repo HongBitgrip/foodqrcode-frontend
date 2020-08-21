@@ -1,5 +1,5 @@
 import React from "react";
-import AddingForm from "./AddingForm";
+import FormOuter from "./FormOuter";
 
 const AdminAdd = () => {
   const inputElements = [
@@ -8,7 +8,7 @@ const AdminAdd = () => {
   ];
   return (
     <div></div>
-    // <AddingForm
+    // <FormOuter
     //   url={"/admins/add"}
     //   buttonName={"Add"}
     //   inputElements={inputElements}

@@ -1,7 +1,7 @@
 import React from "react";
 import SubmitButton from "./SubmitButton";
 
-const AddingForm = ({ formName, children }) => {
+const FormOuter = ({ formName, children }) => {
   return (
     <div className="col-md-6">
       <div className="card">
@@ -13,4 +13,4 @@ const AddingForm = ({ formName, children }) => {
     </div>
   );
 };
-export default AddingForm;
+export default FormOuter;
