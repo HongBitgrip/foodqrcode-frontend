@@ -57,14 +57,15 @@ const RestaurantAdd = () => {
       ),
   });
 
-  const doSubmit = (values) => {
+  const onSubmit = (data) => {
     const url = editId ? `/restaurants/edit/${editId}` : "/restaurants/add";
     //Change the data to match the endPoint
-    const valuesClone = { ...values };
+    const valuesClone = { ...data };
     valuesClone.restaurantTypes = valuesClone.restaurantTypes.map((type) => ({
       id: type.value,
       name: type.label,
     }));
+
     axios.post(url, valuesClone).then((res) => {
       console.log(res.data);
       if (!editId) {
@@ -87,28 +88,30 @@ const RestaurantAdd = () => {
     restaurantTypes: [],
   };
   const [
-    handleSubmit,
     renderButton,
     renderInput,
     renderSelect,
-    setData,
-    setErrors,
-  ] = useFormMethods(initialValues, addRestaurantSchema, doSubmit);
+    handleSubmit,
+    setValue,
+    reset,
+  ] = useFormMethods(initialValues, addRestaurantSchema);
 
   const handleEditClick = useCallback(
     (restaurantId) => {
       setEditId(restaurantId);
       const url = `/restaurants/edit/${restaurantId}`;
       axios.get(url).then((res) => {
-        console.log("Edit restaurant", res.data);
-        setData({
+        // console.log("Edit restaurant", res.data);
+        const editRestaurant = {
           ...res.data,
           restaurantTypes: res.data.restaurantTypes.map((type) => ({
             value: type.id,
             label: type.name,
           })),
-        });
-        setErrors({});
+        };
+        for (const property in initialValues) {
+          setValue(property, editRestaurant[property]);
+        }
       });
     },
     [restaurantList]
@@ -116,8 +119,7 @@ const RestaurantAdd = () => {
 
   const handleAddClick = useCallback(() => {
     setEditId("");
-    setData(initialValues);
-    setErrors({});
+    reset();
   }, [restaurantList]);
 
   const handleDeleteClick = useCallback(
@@ -155,7 +157,7 @@ const RestaurantAdd = () => {
   return (
     <div className="row">
       <FormOuter formName="Restaurant info">
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           {renderInput("name", "Name", "Name..")}
           {renderInput("address", "Address", "Address...", "textarea")}
           {renderInput(
