@@ -10,21 +10,21 @@ export default function useFormMethods(initialValues, schema, doSubmit) {
 
   const validate = () => {
     const options = { abortEarly: false };
-    const errors = {};
     try {
       schema.validateSync(data, options);
+      return null;
     } catch (err) {
+      const errors = {};
       for (let item of err.inner) errors[item.path] = item.message;
+      return errors;
     }
-    return errors;
   };
 
   const validateProperty = (input) => {
     const { name, value } = input;
-    let error = null;
     try {
       reach(schema, name).validateSync(value);
-      return error;
+      return null;
     } catch (err) {
       return err.message;
     }
@@ -35,8 +35,11 @@ export default function useFormMethods(initialValues, schema, doSubmit) {
 
     const errors = validate();
     setErrors({ ...errors });
-    if (errors) return;
+    if (errors) {
+      return;
+    }
 
+    console.log("handle submit", data);
     doSubmit(data);
   };
 
@@ -55,12 +58,13 @@ export default function useFormMethods(initialValues, schema, doSubmit) {
 
   function renderButton(label, appendClass) {
     return (
-      <button
-        onClick={handleSubmit}
-        className={`btn btn-block ${appendClass} mt-4`}
-      >
-        {label}
-      </button>
+      <div className="col-md-6 pl-1 align-content-center mx-auto">
+        <div className="form-group">
+          <button className={`btn btn-block ${appendClass} mt-4`}>
+            {label}
+          </button>
+        </div>
+      </div>
     );
   }
 

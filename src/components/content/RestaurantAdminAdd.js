@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import FormOuter from "./FormOuter";
+import FormOuter from "../common/FormOuter";
 import axios from "axios";
 
 const AdminAdd = () => {

@@ -5,17 +5,8 @@ import "./index.scss";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import { BrowserRouter } from "react-router-dom";
-import storeInstance from "./store/RootStore";
 import "mobx-react-lite/batchingForReactDom";
-import {
-  RecoilRoot,
-  atom,
-  selector,
-  useRecoilState,
-  useRecoilValue,
-} from "recoil";
-
-// export const StoreContext = React.createContext(storeInstance);
+import { RecoilRoot } from "recoil";
 
 ReactDOM.render(
   <React.StrictMode>

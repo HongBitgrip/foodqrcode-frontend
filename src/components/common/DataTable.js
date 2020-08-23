@@ -3,10 +3,19 @@ import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
 import { TiEdit } from "react-icons/ti";
 import { MdDeleteForever, MdLibraryAdd } from "react-icons/md";
+import useTraceUpdate from "use-trace-update";
+import MyPagination from "./MyPagination";
 
-const DataTable = ({ handleEditClick, handleAddClick, itemList }) => {
+const DataTable = ({
+  handleEditClick,
+  handleAddClick,
+  handleDeleteClick,
+  itemList,
+}) => {
+  // useTraceUpdate(props);
+
   return (
-    <Table className="col-md-6" striped bordered hover>
+    <Table striped bordered hover>
       <thead className="text-primary">
         <tr>
           <th>Name</th>
@@ -35,7 +44,11 @@ const DataTable = ({ handleEditClick, handleAddClick, itemList }) => {
               </Button>
             </td>
             <td>
-              <Button variant="danger" className="btn-block">
+              <Button
+                onClick={() => handleDeleteClick(item.id)}
+                variant="danger"
+                className="btn-block"
+              >
                 <MdDeleteForever fontSize="large" />
               </Button>
             </td>
