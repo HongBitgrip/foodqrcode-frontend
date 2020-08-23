@@ -70,8 +70,7 @@ const RestaurantAdd = () => {
     axios.post(url, valuesClone).then((res) => {
       console.log(res.data);
       if (!editId) {
-        setRestaurantList([...restaurantList, res.data]);
-        setItemsCount(itemsCount + 1);
+        fetchRestaurant();
       } else {
         const newRestaurantList = [...restaurantList];
         newRestaurantList[
