@@ -8,7 +8,7 @@ import MyModal from "../common/MyModal";
 import reactModal from "../common/reactModal";
 import MyPagination from "../common/MyPagination";
 
-const RestaurantAdd = (props) => {
+const RestaurantAdd = () => {
   const [restaurantList, setRestaurantList] = useState([]);
 
   const [restaurantTypes, setRestaurantTypes] = useState([]);
@@ -58,7 +58,6 @@ const RestaurantAdd = (props) => {
   });
 
   const doSubmit = (values) => {
-    console.log("doSubmit", values);
     const url = editId ? `/restaurants/edit/${editId}` : "/restaurants/add";
     //Change the data to match the endPoint
     const valuesClone = { ...values };
@@ -68,7 +67,16 @@ const RestaurantAdd = (props) => {
     }));
     axios.post(url, valuesClone).then((res) => {
       console.log(res.data);
-      !editId && setRestaurantList([...restaurantList, res.data]);
+      if (!editId) {
+        setRestaurantList([...restaurantList, res.data]);
+        setItemsCount(itemsCount + 1);
+      } else {
+        const newRestaurantList = [...restaurantList];
+        newRestaurantList[
+          newRestaurantList.findIndex((rest) => rest.id === res.data.id)
+        ] = res.data;
+        setRestaurantList(newRestaurantList);
+      }
     });
   };
 
@@ -133,10 +141,11 @@ const RestaurantAdd = (props) => {
           setRestaurantList(
             restaurantList.filter((item) => item.id !== deleteId)
           );
+          setItemsCount(itemsCount - 1);
         });
       }
     },
-    [restaurantList]
+    [itemsCount, restaurantList]
   );
 
   const handlePageChange = (page) => {
@@ -148,7 +157,7 @@ const RestaurantAdd = (props) => {
       <FormOuter formName="Restaurant info">
         <form onSubmit={handleSubmit}>
           {renderInput("name", "Name", "Name..")}
-          {renderInput("address", "Address", "Adress...", "textarea")}
+          {renderInput("address", "Address", "Address...", "textarea")}
           {renderInput(
             "description",
             "Description",
