@@ -21,7 +21,7 @@ const RestaurantAdd = () => {
 
   const PAGE_SIZE = 10;
 
-  useEffect(() => {
+  const fetchRestaurant = () => {
     const url = "/restaurants/all";
     axios
       .get(url, { params: { page: currentPage - 1, pageSize: PAGE_SIZE } })
@@ -29,7 +29,8 @@ const RestaurantAdd = () => {
         setRestaurantList(res.data.content);
         setItemsCount(res.data.totalElements);
       });
-  }, [currentPage]);
+  };
+  useEffect(fetchRestaurant, [currentPage]);
 
   useEffect(() => {
     const getAllRestaurantTypesUrl = "/restaurant_types/all";
@@ -136,7 +137,6 @@ const RestaurantAdd = () => {
           Are you sure you want to delete this restaurant?
         </MyModal>
       ));
-      console.log("Confirm", isConfirmed);
       if (isConfirmed) {
         const url = `/restaurants/delete/${deleteId}`;
         axios.post(url).then((res) => {
@@ -144,6 +144,7 @@ const RestaurantAdd = () => {
             restaurantList.filter((item) => item.id !== deleteId)
           );
           setItemsCount(itemsCount - 1);
+          fetchRestaurant();
         });
       }
     },
