@@ -7,6 +7,7 @@ import useFormMethods from "../common/useFormMethods";
 import MyModal from "../common/MyModal";
 import reactModal from "../common/reactModal";
 import MyPagination from "../common/MyPagination";
+import SearchBox from "./SearchBox";
 
 const RestaurantAdd = () => {
   const [restaurantList, setRestaurantList] = useState([]);
@@ -19,18 +20,26 @@ const RestaurantAdd = () => {
 
   const [itemsCount, setItemsCount] = useState(0);
 
+  const [searchName, setSearchName] = useState(null);
+
   const PAGE_SIZE = 10;
 
-  const fetchRestaurant = () => {
+  const fetchRestaurant = (searchName = null) => {
     const url = "/restaurants/all";
     axios
-      .get(url, { params: { page: currentPage - 1, pageSize: PAGE_SIZE } })
+      .get(url, {
+        params: {
+          page: currentPage - 1,
+          pageSize: PAGE_SIZE,
+          name: searchName,
+        },
+      })
       .then((res) => {
         setRestaurantList(res.data.content);
         setItemsCount(res.data.totalElements);
       });
   };
-  useEffect(fetchRestaurant, [currentPage]);
+  useEffect(() => fetchRestaurant(searchName), [currentPage, searchName]);
 
   useEffect(() => {
     const getAllRestaurantTypesUrl = "/restaurant_types/all";
@@ -70,7 +79,7 @@ const RestaurantAdd = () => {
     axios.post(url, valuesClone).then((res) => {
       console.log(res.data);
       if (!editId) {
-        fetchRestaurant();
+        fetchRestaurant(searchName);
       } else {
         const newRestaurantList = [...restaurantList];
         newRestaurantList[
@@ -87,14 +96,14 @@ const RestaurantAdd = () => {
     description: "",
     restaurantTypes: [],
   };
-  const [
+  const {
     renderButton,
     renderInput,
     renderSelect,
     handleSubmit,
     setValue,
     reset,
-  ] = useFormMethods(initialValues, addRestaurantSchema);
+  } = useFormMethods(initialValues, addRestaurantSchema);
 
   const handleEditClick = useCallback(
     (restaurantId) => {
@@ -154,6 +163,10 @@ const RestaurantAdd = () => {
     setCurrentPage(page);
   };
 
+  const onSearchSubmit = (data) => {
+    setSearchName(data.query);
+  };
+
   return (
     <div className="row">
       <FormOuter formName="Restaurant info">
@@ -174,6 +187,7 @@ const RestaurantAdd = () => {
         </form>
       </FormOuter>
       <div className="col-md-6">
+        <SearchBox onSubmit={onSearchSubmit} />
         <DataTable
           handleEditClick={handleEditClick}
           handleAddClick={handleAddClick}

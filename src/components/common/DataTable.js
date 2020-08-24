@@ -3,8 +3,6 @@ import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
 import { TiEdit } from "react-icons/ti";
 import { MdDeleteForever, MdLibraryAdd } from "react-icons/md";
-import useTraceUpdate from "use-trace-update";
-import MyPagination from "./MyPagination";
 
 const DataTable = ({
   handleEditClick,

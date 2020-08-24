@@ -5,9 +5,9 @@ import Input from "./Input";
 import CustomSelect from "./CustomSelect";
 import { Controller, useForm } from "react-hook-form";
 
-export default function useFormMethods(initialValues, schema) {
+export default function useFormMethods(initialValues, schema = null) {
   const { register, errors, handleSubmit, setValue, reset, control } = useForm({
-    resolver: yupResolver(schema),
+    resolver: schema && yupResolver(schema),
   });
 
   function renderButton(text, appendClass) {
@@ -52,12 +52,13 @@ export default function useFormMethods(initialValues, schema) {
     );
   }
 
-  return [
+  return {
     renderButton,
     renderInput,
     renderSelect,
     handleSubmit,
     setValue,
     reset,
-  ];
+    register,
+  };
 }
