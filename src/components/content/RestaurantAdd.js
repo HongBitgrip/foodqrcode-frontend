@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { array, object, string } from "yup";
 import DataTable from "../common/DataTable";
 import FormOuter from "../common/FormOuter";
-import useFormMethods from "../common/useFormMethods";
+import useFormMethods from "../common/customHooks/useFormMethods";
 import MyModal from "../common/MyModal";
 import reactModal from "../common/reactModal";
 import MyPagination from "../common/MyPagination";
@@ -25,7 +25,7 @@ const RestaurantAdd = () => {
   const PAGE_SIZE = 10;
 
   const fetchRestaurant = (searchName = null) => {
-    const url = "/restaurants/all";
+    const url = "/restaurants/all_pageable";
     axios
       .get(url, {
         params: {

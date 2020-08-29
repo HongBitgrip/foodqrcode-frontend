@@ -9,7 +9,6 @@ const Input = ({ name, label, error, type, register, ...rest }) => {
         {...rest}
         ref={register}
         name={name}
-        id={name}
         className={`form-control ${type === "textarea" && "rounded border"}`}
       />
       {error && <p className="text-danger">{error}</p>}

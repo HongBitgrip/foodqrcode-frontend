@@ -1,8 +1,8 @@
 import React from "react";
 import { yupResolver } from "@hookform/resolvers";
 
-import Input from "./Input";
-import CustomSelect from "./CustomSelect";
+import Input from "../Input";
+import CustomSelect from "../CustomSelect";
 import { Controller, useForm } from "react-hook-form";
 
 export default function useFormMethods(initialValues, schema = null) {
@@ -12,7 +12,7 @@ export default function useFormMethods(initialValues, schema = null) {
 
   function renderButton(text, appendClass) {
     return (
-      <div className="col-md-6 pl-1 align-content-center mx-auto">
+      <div className="col-md-6 align-content-center mx-auto">
         <div className="form-group">
           <input
             type="submit"

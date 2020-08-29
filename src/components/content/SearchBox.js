@@ -1,6 +1,6 @@
 import React from "react";
 import { FaSearch } from "react-icons/fa/index";
-import useFormMethods from "../common/useFormMethods";
+import useFormMethods from "../common/customHooks/useFormMethods";
 
 const SearchBox = ({ onSubmit }) => {
   const { handleSubmit, register } = useFormMethods("");

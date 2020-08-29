@@ -2,6 +2,7 @@ import React from "react";
 import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
 import RestaurantAdd from "./RestaurantAdd";
+import RestaurantTypeAdd from "./RestaurantTypeAdd";
 
 const Restaurants = () => {
   return (
@@ -24,7 +25,7 @@ const Restaurants = () => {
                   <p>Test 2</p>
                 </Tab>
                 <Tab eventKey="restaurantTypes" title="Restaurant Types">
-                  <p>Test 3</p>
+                  <RestaurantTypeAdd />
                 </Tab>
               </Tabs>
             </div>
