@@ -1,18 +1,26 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
 import RestaurantAdd from "./RestaurantAdd";
 import RestaurantTypeAdd from "./RestaurantTypeAdd";
 import RestaurantAdminAdd from "./RestaurantAdminAdd";
+import { useRecoilState } from "recoil";
+import { pageTitleState } from "../NavBar";
 
 const Restaurants = () => {
+  const [pageTitle, setPageTitle] = useRecoilState(pageTitleState);
+
+  useEffect(() => {
+    setPageTitle("Restaurant management");
+    return () => {
+      setPageTitle("");
+    };
+  }, [setPageTitle]);
+
   return (
     <div className="row">
       <div className="col-md-12">
         <div className="card">
-          {/*<div className="card-header">*/}
-          {/*  <h5 className="title">Restaurants Management</h5>*/}
-          {/*</div>*/}
           <div className="card-body">
             <div>
               <Tabs

@@ -1,11 +1,14 @@
 import React from "react";
 import { observer } from "mobx-react";
+import { atom, useRecoilValue } from "recoil";
+
+export const pageTitleState = atom({
+  key: "pageTitleState",
+  default: "",
+});
 
 const NavBar = observer(() => {
-  // const store = useContext(StoreContext);
-  // useEffect(() => {
-  //   store.uiState.setPageTitle("Restaurant Management");
-  // });
+  const pageTitle = useRecoilValue(pageTitleState);
   return (
     <nav className="navbar navbar-expand-lg navbar-transparent bg-primary navbar-absolute">
       <div className="container-fluid">
@@ -18,8 +21,7 @@ const NavBar = observer(() => {
             </button>
           </div>
           <a className="navbar-brand" href="#pablo">
-            {/*{store.uiState.pageTitle}*/}
-            Test title
+            {pageTitle}
           </a>
         </div>
         <button
