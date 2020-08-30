@@ -10,7 +10,6 @@ export default function useFormMethods(initialValues, schema = null) {
     resolver: schema && yupResolver(schema),
   });
 
-
   function renderButton(text, appendClass) {
     return (
       <div className="col-md-6 align-content-center mx-auto">

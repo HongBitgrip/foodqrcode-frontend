@@ -3,11 +3,11 @@ import React from "react";
 const FormOuter = ({ formName, children }) => {
   return (
     <div className="col-md-6">
-      <div className="card">
-        <div className="card-header">
+      <div className="pt-1 pl-1">
+        <div>
           <h5 className="title">{formName}</h5>
         </div>
-        <div className="card-body">{children}</div>
+        <div>{children}</div>
       </div>
     </div>
   );
