@@ -9,10 +9,8 @@ const CustomSelect = ({ name, label, options, error, onChange, ...rest }) => {
         {...rest}
         id={name}
         name={name}
-        closeMenuOnSelect={false}
         onChange={onChange}
         options={options}
-        isMulti={true}
       />
       {error && <p className="text-danger">{error}</p>}
     </div>

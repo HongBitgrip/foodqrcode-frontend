@@ -38,7 +38,7 @@ export default function useFormMethods(initialValues, schema = null) {
     );
   }
 
-  function renderSelect(name, label, options) {
+  function renderSelect(name, label, options, isMulti = true) {
     return (
       <Controller
         as={<CustomSelect />}
@@ -47,6 +47,8 @@ export default function useFormMethods(initialValues, schema = null) {
         options={options}
         label={label}
         error={errors[name]?.message}
+        isMulti={isMulti}
+        closeMenuOnSelect={!isMulti}
         defaultValue={initialValues[name]}
       />
     );

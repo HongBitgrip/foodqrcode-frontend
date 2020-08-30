@@ -11,6 +11,7 @@ import MyModal from "../common/MyModal";
 
 const RestaurantTypeAdd = () => {
   const PAGE_SIZE = 10;
+
   const [editId, setEditId] = useState("");
 
   const [typeList, setTypeList] = useState([]);
