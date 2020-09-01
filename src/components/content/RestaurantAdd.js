@@ -24,6 +24,36 @@ const RestaurantAdd = () => {
 
   const PAGE_SIZE = 10;
 
+  const addRestaurantSchema = object({
+    name: string().required("Name is required"),
+    address: string().required("Address is required"),
+    description: string().required("Description is required"),
+    restaurantTypes: array()
+      .ensure()
+      .min(1, "Pick at least 1 type")
+      .of(
+        object().shape({
+          label: string().required(),
+          value: string().required(),
+        })
+      ),
+  });
+
+  const initialValues = {
+    name: "",
+    address: "",
+    description: "",
+    restaurantTypes: [],
+  };
+  const {
+    renderButton,
+    renderInput,
+    renderSelect,
+    handleSubmit,
+    setValue,
+    reset,
+  } = useFormMethods(initialValues, addRestaurantSchema);
+
   const fetchRestaurant = (searchName = null) => {
     const url = "/restaurants/all_pageable";
     axios
@@ -52,21 +82,6 @@ const RestaurantAdd = () => {
     });
   }, []);
 
-  const addRestaurantSchema = object({
-    name: string().required("Name is required"),
-    address: string().required("Address is required"),
-    description: string().required("Description is required"),
-    restaurantTypes: array()
-      .ensure()
-      .min(1, "Pick at least 1 type")
-      .of(
-        object().shape({
-          label: string().required(),
-          value: string().required(),
-        })
-      ),
-  });
-
   const onSubmit = (data) => {
     const url = editId ? `/restaurants/edit/${editId}` : "/restaurants/add";
     //Change the data to match the endPoint
@@ -89,21 +104,6 @@ const RestaurantAdd = () => {
       }
     });
   };
-
-  const initialValues = {
-    name: "",
-    address: "",
-    description: "",
-    restaurantTypes: [],
-  };
-  const {
-    renderButton,
-    renderInput,
-    renderSelect,
-    handleSubmit,
-    setValue,
-    reset,
-  } = useFormMethods(initialValues, addRestaurantSchema);
 
   const handleEditClick = useCallback(
     (restaurantId) => {

@@ -94,18 +94,23 @@ const AdminAdd = () => {
       name: valuesClone.restaurant.label,
     };
 
-    axios.post(url, valuesClone).then((res) => {
-      console.log(res.data);
-      if (!editId) {
-        fetchAdminList(searchEmail);
-      } else {
-        const newAdminList = [...adminList];
-        newAdminList[
-          newAdminList.findIndex((admin) => admin.id === res.data.id)
-        ] = { id: res.data.id, name: res.data.email, ...res.data };
-        setAdminList(newAdminList);
-      }
-    });
+    axios
+      .post(url, valuesClone)
+      .then((res) => {
+        console.log(res.data);
+        if (!editId) {
+          fetchAdminList(searchEmail);
+        } else {
+          const newAdminList = [...adminList];
+          newAdminList[
+            newAdminList.findIndex((admin) => admin.id === res.data.id)
+          ] = { id: res.data.id, name: res.data.email, ...res.data };
+          setAdminList(newAdminList);
+        }
+      })
+      .catch((error) => {
+        console.log(error.response);
+      });
   };
 
   const handleEditClick = useCallback(

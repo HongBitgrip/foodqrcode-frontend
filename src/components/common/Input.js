@@ -7,7 +7,7 @@ const Input = ({ name, label, error, type, register, ...rest }) => {
       <label htmlFor={name}>{label}</label>
       <CustomTag
         {...rest}
-        type={type !== "textarea" && type}
+        type={type !== "textarea" ? type : null}
         ref={register}
         name={name}
         className={`form-control ${type === "textarea" && "rounded border"}`}
