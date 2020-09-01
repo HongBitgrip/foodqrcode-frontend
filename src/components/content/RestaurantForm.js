@@ -9,7 +9,7 @@ import reactModal from "../common/reactModal";
 import MyPagination from "../common/MyPagination";
 import SearchBox from "./SearchBox";
 
-const RestaurantAdd = () => {
+const RestaurantForm = () => {
   const [restaurantList, setRestaurantList] = useState([]);
 
   const [restaurantTypes, setRestaurantTypes] = useState([]);
@@ -205,4 +205,4 @@ const RestaurantAdd = () => {
   );
 };
 
-export default RestaurantAdd;
+export default RestaurantForm;

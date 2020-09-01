@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
-import RestaurantAdd from "./RestaurantAdd";
-import RestaurantTypeAdd from "./RestaurantTypeAdd";
-import RestaurantAdminAdd from "./RestaurantAdminAdd";
+import RestaurantForm from "./RestaurantForm";
+import RestaurantTypeForm from "./RestaurantTypeForm";
+import RestaurantAdminAdd from "./RestaurantAdminForm";
 import { useRecoilState } from "recoil";
 import { pageTitleState } from "../NavBar";
 
@@ -28,13 +28,13 @@ const Restaurants = () => {
                 id="uncontrolled-tab-example"
               >
                 <Tab eventKey="restaurants" title="Restaurants">
-                  <RestaurantAdd />
+                  <RestaurantForm />
                 </Tab>
                 <Tab eventKey="restaurantAdmins" title="Restaurant Admins">
                   <RestaurantAdminAdd />
                 </Tab>
                 <Tab eventKey="restaurantTypes" title="Restaurant Types">
-                  <RestaurantTypeAdd />
+                  <RestaurantTypeForm />
                 </Tab>
               </Tabs>
             </div>

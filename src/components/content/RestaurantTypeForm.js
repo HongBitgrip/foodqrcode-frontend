@@ -9,7 +9,7 @@ import MyPagination from "../common/MyPagination";
 import reactModal from "../common/reactModal";
 import MyModal from "../common/MyModal";
 
-const RestaurantTypeAdd = () => {
+const RestaurantTypeForm = () => {
   const PAGE_SIZE = 10;
 
   const [editId, setEditId] = useState("");
@@ -163,4 +163,4 @@ const RestaurantTypeAdd = () => {
   );
 };
 
-export default RestaurantTypeAdd;
+export default RestaurantTypeForm;
