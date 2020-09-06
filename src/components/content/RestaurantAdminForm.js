@@ -8,6 +8,8 @@ import MyModal from "../common/MyModal";
 import SearchBox from "./SearchBox";
 import DataTable from "../common/DataTable";
 import MyPagination from "../common/MyPagination";
+import PasswordResetFrame from "./PasswordResetFrame";
+import { randomString } from "../utils";
 
 const AdminAdd = () => {
   const [adminList, setAdminList] = useState([]);
@@ -22,15 +24,12 @@ const AdminAdd = () => {
 
   const [searchEmail, setSearchEmail] = useState(null);
 
+  const [password, setPassword] = useState();
+
   const PAGE_SIZE = 10;
 
   const addAdminSchema = object({
     email: string().required("Email is required").email("Not a valid email"),
-    password: string().required("Password is required"),
-    confirmPassword: string().oneOf(
-      [ref("password"), null],
-      "Password must match"
-    ),
     restaurant: object({
       label: string().required(),
       value: string().required(),
@@ -39,8 +38,6 @@ const AdminAdd = () => {
 
   const initialValues = {
     email: "",
-    password: "",
-    confirmPassword: "",
     restaurant: null,
   };
 
@@ -51,7 +48,10 @@ const AdminAdd = () => {
     handleSubmit,
     setValue,
     reset,
+    watch,
   } = useFormMethods(initialValues, addAdminSchema);
+
+  const watchIsResetPassword = watch("isResetPassword", false);
 
   const fetchAdminList = (searchEmail = null) => {
     const url = "/restaurant_admins/all_pageable";
@@ -93,6 +93,13 @@ const AdminAdd = () => {
       id: valuesClone.restaurant.value,
       name: valuesClone.restaurant.label,
     };
+
+    //Create random password
+    const newPassword = randomString(15);
+    setPassword(newPassword);
+    valuesClone.password = newPassword;
+
+    console.log("value", valuesClone);
 
     axios
       .post(url, valuesClone)
@@ -178,14 +185,19 @@ const AdminAdd = () => {
       <FormOuter formName="Restaurant admin info">
         <form onSubmit={handleSubmit(onSubmit)}>
           {renderInput("email", "Email", "Email..")}
-          {renderInput("password", "password", "Password...", "password")}
-          {renderInput(
-            "confirmPassword",
-            "Confirm Password",
-            "Confirm password...",
-            "password"
-          )}
           {renderSelect("restaurant", "Restaurant", restaurants, false)}
+          {editId &&
+            renderInput("isResetPassword", "Reset Password", null, "checkbox")}
+          {(!editId || watchIsResetPassword) && (
+            <PasswordResetFrame password={password} />
+          )}
+          {/*{renderInput("password", "Password", "Password...", "password")}*/}
+          {/*{renderInput(*/}
+          {/*  "confirmPassword",*/}
+          {/*  "Confirm Password",*/}
+          {/*  "Confirm password...",*/}
+          {/*  "password"*/}
+          {/*)}*/}
           {renderButton(
             editId ? "Edit" : " Add",
             editId ? "btn-info" : "btn-primary"

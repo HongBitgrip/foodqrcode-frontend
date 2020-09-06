@@ -59,7 +59,6 @@ const AdminForm = () => {
         },
       })
       .then((res) => {
-        console.log(res.data);
         setAdminList(
           res.data.content.map((admin) => ({ id: admin.id, name: admin.email }))
         );
