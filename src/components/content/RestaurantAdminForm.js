@@ -93,11 +93,13 @@ const AdminAdd = () => {
       id: valuesClone.restaurant.value,
       name: valuesClone.restaurant.label,
     };
-
-    //Create random password
-    const newPassword = randomString(15);
-    setPassword(newPassword);
-    valuesClone.password = newPassword;
+    console.log(data);
+    if ((editId && data.isResetPassword) || !editId) {
+      //Create random password
+      const newPassword = randomString(15);
+      setPassword(newPassword);
+      valuesClone.password = newPassword;
+    }
 
     console.log("value", valuesClone);
 
@@ -143,6 +145,7 @@ const AdminAdd = () => {
 
   const handleAddClick = useCallback(() => {
     setEditId("");
+    setPassword(null);
     reset();
   }, [adminList]);
 
@@ -191,13 +194,6 @@ const AdminAdd = () => {
           {(!editId || watchIsResetPassword) && (
             <PasswordResetFrame password={password} />
           )}
-          {/*{renderInput("password", "Password", "Password...", "password")}*/}
-          {/*{renderInput(*/}
-          {/*  "confirmPassword",*/}
-          {/*  "Confirm Password",*/}
-          {/*  "Confirm password...",*/}
-          {/*  "password"*/}
-          {/*)}*/}
           {renderButton(
             editId ? "Edit" : " Add",
             editId ? "btn-info" : "btn-primary"
