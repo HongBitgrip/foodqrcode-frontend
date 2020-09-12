@@ -1,18 +1,17 @@
 import React, { useCallback, useEffect, useState } from "react";
 import FormOuter from "../common/FormOuter";
 import useFormMethods from "../common/customHooks/useFormMethods";
-import { object, ref, string } from "yup";
+import { object, ref, string, boolean } from "yup";
 import axios from "axios";
 import reactModal from "../common/reactModal";
 import MyModal from "../common/MyModal";
 import SearchBox from "./SearchBox";
 import DataTable from "../common/DataTable";
 import MyPagination from "../common/MyPagination";
+import { ErrorMessage } from "../common/ErrorMessage";
 
 const AdminForm = () => {
   const [adminList, setAdminList] = useState([]);
-
-  const [restaurants, setRestaurants] = useState([]);
 
   const [editId, setEditId] = useState("");
 
@@ -22,19 +21,31 @@ const AdminForm = () => {
 
   const [searchEmail, setSearchEmail] = useState(null);
 
+  const [error, setError] = useState(null);
+
   const PAGE_SIZE = 10;
 
   const addAdminSchema = object({
+    isChangePassword: boolean(),
     email: string().required("Email is required").email("Not a valid email"),
-    password: string().required("Password is required"),
-    confirmPassword: string().oneOf(
-      [ref("password"), null],
-      "Password must match"
-    ),
+    oldPassword: string().when("isChangePassword", {
+      is: true,
+      then: string().required("Old password is required"),
+    }),
+    password: string().when("isChangePassword", {
+      is: true,
+      then: string().required("Password is required"),
+    }),
+    confirmPassword: string().when("isChangePassword", {
+      is: true,
+      then: string().oneOf([ref("password"), null], "Password must match"),
+    }),
   });
 
   const initialValues = {
     email: "",
+    isChangePassword: true,
+    oldPassword: "",
     password: "",
     confirmPassword: "",
     restaurant: null,
@@ -46,7 +57,10 @@ const AdminForm = () => {
     handleSubmit,
     setValue,
     reset,
+    watch,
   } = useFormMethods(initialValues, addAdminSchema);
+
+  const watchIsChangePassword = watch("isChangePassword", false);
 
   const fetchAdminList = (searchEmail = null) => {
     const url = "/admins/all_pageable";
@@ -69,7 +83,7 @@ const AdminForm = () => {
 
   const onSubmit = (data) => {
     const url = editId ? `/admins/edit/${editId}` : "/admins/add";
-
+    console.log(data);
     axios
       .post(url, data)
       .then((res) => {
@@ -77,11 +91,16 @@ const AdminForm = () => {
         if (!editId) {
           fetchAdminList(searchEmail);
         } else {
-          setAdminList([...adminList, res.data]);
+          const newAdminList = [...adminList];
+          newAdminList[
+            newAdminList.findIndex((admin) => admin.id === res.data.id)
+          ] = { id: res.data.id, name: res.data.email, ...res.data };
+          setAdminList(newAdminList);
         }
       })
       .catch((error) => {
         console.log(error.response);
+        setError(error.response.data.message);
       });
   };
 
@@ -143,13 +162,31 @@ const AdminForm = () => {
       <FormOuter formName="Admin info">
         <form onSubmit={handleSubmit(onSubmit)}>
           {renderInput("email", "Email", "Email..")}
-          {renderInput("password", "password", "Password...", "password")}
-          {renderInput(
-            "confirmPassword",
-            "Confirm Password",
-            "Confirm password...",
-            "password"
-          )}
+          {editId &&
+            renderInput(
+              "isChangePassword",
+              "Change password",
+              null,
+              "checkbox"
+            )}
+          {editId &&
+            watchIsChangePassword &&
+            renderInput(
+              "oldPassword",
+              "Old Password",
+              "Old password...",
+              "password"
+            )}
+          {(!editId || watchIsChangePassword) &&
+            renderInput("password", "Password", "Password...", "password")}
+          {(!editId || watchIsChangePassword) &&
+            renderInput(
+              "confirmPassword",
+              "Confirm Password",
+              "Confirm password...",
+              "password"
+            )}
+          <ErrorMessage error={error} />
           {renderButton(
             editId ? "Edit" : " Add",
             editId ? "btn-info" : "btn-primary"

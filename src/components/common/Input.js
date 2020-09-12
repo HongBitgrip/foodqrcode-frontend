@@ -1,4 +1,5 @@
 import React from "react";
+import { ErrorMessage } from "./ErrorMessage";
 
 const Input = ({ name, label, error, type, register, ...rest }) => {
   const CustomTag = type === "textarea" ? "textarea" : "input";
@@ -32,7 +33,7 @@ const Input = ({ name, label, error, type, register, ...rest }) => {
     <div className="form-group">
       {first}
       {second}
-      {error && <p className="text-danger">{error}</p>}
+      {error && <ErrorMessage error={error} />}
     </div>
   );
 };
