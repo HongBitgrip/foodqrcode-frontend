@@ -28,28 +28,31 @@ const AdminForm = () => {
   const addAdminSchema = object({
     isChangePassword: boolean(),
     email: string().required("Email is required").email("Not a valid email"),
-    oldPassword: string().when("isChangePassword", {
-      is: true,
-      then: string().required("Old password is required"),
-      otherwise: !editId && string().required("Old password is required"),
+    oldPassword: string().when(
+      "isChangePassword",
+      (isChangePassword, schema) => {
+        if (isChangePassword || !editId) {
+          return schema.required("Old password is required");
+        }
+      }
+    ),
+    password: string().when("isChangePassword", (isChangePassword, schema) => {
+      if (isChangePassword || !editId) {
+        return schema.required("Password is required");
+      }
     }),
-    password: string().when("isChangePassword", {
-      is: true,
-      then: string().required("Password is required"),
-      otherwise: !editId && string().required("Password is required"),
-    }),
-    confirmPassword: string().when("isChangePassword", {
-      is: true,
-      then: string().oneOf([ref("password"), null], "Password must match"),
-      otherwise:
-        !editId &&
-        string().oneOf([ref("password"), null], "Password must match"),
-    }),
+    confirmPassword: string().when(
+      "isChangePassword",
+      (isChangePassword, schema) => {
+        if (isChangePassword || !editId) {
+          return schema.oneOf([ref("password"), null], "Password must match");
+        }
+      }
+    ),
   });
 
   const initialValues = {
     email: "",
-    isChangePassword: true,
     oldPassword: "",
     password: "",
     confirmPassword: "",
