@@ -31,14 +31,19 @@ const AdminForm = () => {
     oldPassword: string().when("isChangePassword", {
       is: true,
       then: string().required("Old password is required"),
+      otherwise: !editId && string().required("Old password is required"),
     }),
     password: string().when("isChangePassword", {
       is: true,
       then: string().required("Password is required"),
+      otherwise: !editId && string().required("Password is required"),
     }),
     confirmPassword: string().when("isChangePassword", {
       is: true,
       then: string().oneOf([ref("password"), null], "Password must match"),
+      otherwise:
+        !editId &&
+        string().oneOf([ref("password"), null], "Password must match"),
     }),
   });
 
