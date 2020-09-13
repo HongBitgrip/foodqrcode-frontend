@@ -21,8 +21,6 @@ const AdminForm = () => {
 
   const [searchEmail, setSearchEmail] = useState(null);
 
-  const [error, setError] = useState(null);
-
   const PAGE_SIZE = 10;
 
   const addAdminSchema = object({
@@ -31,7 +29,7 @@ const AdminForm = () => {
     oldPassword: string().when(
       "isChangePassword",
       (isChangePassword, schema) => {
-        if (isChangePassword || !editId) {
+        if (isChangePassword && editId) {
           return schema.required("Old password is required");
         }
       }
@@ -66,6 +64,8 @@ const AdminForm = () => {
     setValue,
     reset,
     watch,
+    errors,
+    setError,
   } = useFormMethods(initialValues, addAdminSchema);
 
   const watchIsChangePassword = watch("isChangePassword", false);
@@ -107,14 +107,14 @@ const AdminForm = () => {
         }
       })
       .catch((error) => {
-        console.log(error.response);
-        setError(error.response.data.message);
+        setError("submit", { message: error.response.data.message });
       });
   };
 
   const handleEditClick = useCallback(
     (adminId) => {
       setEditId(adminId);
+      reset();
       const url = `/admins/edit/${adminId}`;
       axios.get(url).then((res) => {
         console.log("admin", res.data);
@@ -194,7 +194,7 @@ const AdminForm = () => {
               "Confirm password...",
               "password"
             )}
-          <ErrorMessage error={error} />
+          {errors.submit && <ErrorMessage error={errors.submit.message} />}
           {renderButton(
             editId ? "Edit" : " Add",
             editId ? "btn-info" : "btn-primary"

@@ -9,6 +9,7 @@ export default function useFormMethods(initialValues, schema = null) {
   const {
     register,
     errors,
+    setError,
     handleSubmit,
     setValue,
     reset,
@@ -71,5 +72,7 @@ export default function useFormMethods(initialValues, schema = null) {
     reset,
     register,
     watch,
+    errors,
+    setError,
   };
 }

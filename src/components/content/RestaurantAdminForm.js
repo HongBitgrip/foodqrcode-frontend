@@ -125,6 +125,7 @@ const AdminAdd = () => {
   const handleEditClick = useCallback(
     (adminId) => {
       setEditId(adminId);
+      setPassword(null);
       const url = `/restaurant_admins/edit/${adminId}`;
       axios.get(url).then((res) => {
         console.log("Restaurant admin", res.data);
