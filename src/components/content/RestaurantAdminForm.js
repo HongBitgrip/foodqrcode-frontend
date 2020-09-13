@@ -10,6 +10,7 @@ import DataTable from "../common/DataTable";
 import MyPagination from "../common/MyPagination";
 import PasswordResetFrame from "./PasswordResetFrame";
 import { randomString } from "../utils";
+import { ErrorMessage } from "../common/ErrorMessage";
 
 const AdminAdd = () => {
   const [adminList, setAdminList] = useState([]);
@@ -49,6 +50,8 @@ const AdminAdd = () => {
     setValue,
     reset,
     watch,
+    errors,
+    setError,
   } = useFormMethods(initialValues, addAdminSchema);
 
   const watchIsResetPassword = watch("isResetPassword", false);
@@ -118,7 +121,7 @@ const AdminAdd = () => {
         }
       })
       .catch((error) => {
-        console.log(error.response);
+        setError("submit", { message: error.response.data.message });
       });
   };
 
@@ -195,6 +198,7 @@ const AdminAdd = () => {
           {(!editId || watchIsResetPassword) && (
             <PasswordResetFrame password={password} />
           )}
+          {errors.submit && <ErrorMessage error={errors.submit.message} />}
           {renderButton(
             editId ? "Edit" : " Add",
             editId ? "btn-info" : "btn-primary"

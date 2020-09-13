@@ -8,6 +8,7 @@ import MyModal from "../common/MyModal";
 import reactModal from "../common/reactModal";
 import MyPagination from "../common/MyPagination";
 import SearchBox from "./SearchBox";
+import { ErrorMessage } from "../common/ErrorMessage";
 
 const RestaurantForm = () => {
   const [restaurantList, setRestaurantList] = useState([]);
@@ -52,6 +53,8 @@ const RestaurantForm = () => {
     handleSubmit,
     setValue,
     reset,
+    errors,
+    setError,
   } = useFormMethods(initialValues, addRestaurantSchema);
 
   const fetchRestaurant = (searchName = null) => {
@@ -91,18 +94,23 @@ const RestaurantForm = () => {
       name: type.label,
     }));
 
-    axios.post(url, valuesClone).then((res) => {
-      console.log(res.data);
-      if (!editId) {
-        fetchRestaurant(searchName);
-      } else {
-        const newRestaurantList = [...restaurantList];
-        newRestaurantList[
-          newRestaurantList.findIndex((rest) => rest.id === res.data.id)
-        ] = res.data;
-        setRestaurantList(newRestaurantList);
-      }
-    });
+    axios
+      .post(url, valuesClone)
+      .then((res) => {
+        console.log(res.data);
+        if (!editId) {
+          fetchRestaurant(searchName);
+        } else {
+          const newRestaurantList = [...restaurantList];
+          newRestaurantList[
+            newRestaurantList.findIndex((rest) => rest.id === res.data.id)
+          ] = res.data;
+          setRestaurantList(newRestaurantList);
+        }
+      })
+      .catch((error) => {
+        setError("submit", { message: error.response.data.message });
+      });
   };
 
   const handleEditClick = useCallback(
@@ -180,6 +188,7 @@ const RestaurantForm = () => {
             "textarea"
           )}
           {renderSelect("restaurantTypes", "Restaurant Types", restaurantTypes)}
+          {errors.submit && <ErrorMessage error={errors.submit.message} />}
           {renderButton(
             editId ? "Edit" : " Add",
             editId ? "btn-info" : "btn-primary"
