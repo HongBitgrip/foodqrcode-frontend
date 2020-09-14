@@ -1,15 +1,20 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import 'bootstrap/dist/css/bootstrap.min.css';
+import "bootstrap/dist/css/bootstrap.min.css";
 import "./index.scss";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import { BrowserRouter } from "react-router-dom";
+import "mobx-react-lite/batchingForReactDom";
+import { RecoilRoot } from "recoil";
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-      <App />
+      <RecoilRoot>
+        <App />
+      </RecoilRoot>
+      {/*</StoreContext.Provider>*/}
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById("root")

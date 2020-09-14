@@ -7,11 +7,11 @@ import NavBar from "./components/NavBar";
 import LoginPage from "./components/content/LoginPage";
 import { Route, Switch } from "react-router-dom";
 import UserAdd from "./components/content/UserAdd";
-import AdminAdd from "./components/content/AdminAdd";
-import RestaurantAdminAdd from "./components/content/RestaurantAdminAdd";
-import RestaurantTypeAdd from "./components/content/RestaurantTypeAdd";
-import RestaurantAdd from "./components/content/RestaurantAdd";
+import RestaurantAdminAdd from "./components/content/RestaurantAdminForm";
+import RestaurantTypeForm from "./components/content/RestaurantTypeForm";
+import RestaurantForm from "./components/content/RestaurantForm";
 import Restaurants from "./components/content/Restaurants";
+import Admins from "./components/content/Admins";
 
 function App() {
   return (
@@ -38,7 +38,7 @@ function App() {
           </Route>
           <Route path="/admins/add">
             <div className="content">
-              <AdminAdd />
+              <Admins />
             </div>
           </Route>
           <Route path="/restaurant_admins/add">
@@ -48,12 +48,12 @@ function App() {
           </Route>
           <Route path="/restaurant_types/add">
             <div className="content">
-              <RestaurantTypeAdd />
+              <RestaurantTypeForm />
             </div>
           </Route>
           <Route path="/restaurants/add">
             <div className="content">
-              <RestaurantAdd />
+              <RestaurantForm />
             </div>
           </Route>
         </Switch>

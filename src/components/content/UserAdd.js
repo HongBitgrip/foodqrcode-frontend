@@ -1,5 +1,5 @@
 import React from "react";
-import AddingForm from "./AddingForm";
+import FormOuter from "../common/FormOuter";
 
 const UserAdd = () => {
   const inputElements = [
@@ -10,12 +10,13 @@ const UserAdd = () => {
     { name: "password", type: "password" },
   ];
   return (
-    <AddingForm
-      url={"/users/add"}
-      buttonName={"Login"}
-      inputElements={inputElements}
-      formName={"Sign Up"}
-    />
+    <div></div>
+    // <FormOuter
+    //   url={"/users/add"}
+    //   buttonName={"Login"}
+    //   inputElements={inputElements}
+    //   formName={"Sign Up"}
+    // />
   );
 };
 

@@ -1,37 +1,48 @@
-import React from 'react';
-import Tabs from 'react-bootstrap/Tabs';
-import Tab from 'react-bootstrap/Tab';
-import RestaurantAdd from "./RestaurantAdd";
+import React, { useEffect } from "react";
+import Tabs from "react-bootstrap/Tabs";
+import Tab from "react-bootstrap/Tab";
+import RestaurantForm from "./RestaurantForm";
+import RestaurantTypeForm from "./RestaurantTypeForm";
+import RestaurantAdminAdd from "./RestaurantAdminForm";
+import { useRecoilState } from "recoil";
+import { pageTitleState } from "../NavBar";
 
 const Restaurants = () => {
-    return (
-        <div className="row">
-            <div className="col-md-12">
-                <div className="card">
-                    <div className="card-header">
-                        <h5 className="title">Restaurants Management</h5>
-                    </div>
-                    <div className="card-body">
-                        <form>
-                            <div>
-                                <Tabs defaultActiveKey="restaurants" id="uncontrolled-tab-example">
-                                    <Tab eventKey="restaurants" title="Restaurants">
-                                        <RestaurantAdd />
-                                    </Tab>
-                                    <Tab eventKey="restaurantAdmins" title="Restaurant Admins">
-                                        <p>Test 2</p>
-                                    </Tab>
-                                    <Tab eventKey="restaurantTypes" title="Restaurant Types">
-                                        <p>Test 3</p>
-                                    </Tab>
-                                </Tabs>
-                            </div>
-                        </form>
-                    </div>
-                </div>
+  const [pageTitle, setPageTitle] = useRecoilState(pageTitleState);
+
+  useEffect(() => {
+    setPageTitle("Restaurant management");
+    return () => {
+      setPageTitle("");
+    };
+  }, [setPageTitle]);
+
+  return (
+    <div className="row">
+      <div className="col-md-12">
+        <div className="card">
+          <div className="card-body">
+            <div>
+              <Tabs
+                defaultActiveKey="restaurants"
+                id="uncontrolled-tab-example"
+              >
+                <Tab eventKey="restaurants" title="Restaurants">
+                  <RestaurantForm />
+                </Tab>
+                <Tab eventKey="restaurantAdmins" title="Restaurant Admins">
+                  <RestaurantAdminAdd />
+                </Tab>
+                <Tab eventKey="restaurantTypes" title="Restaurant Types">
+                  <RestaurantTypeForm />
+                </Tab>
+              </Tabs>
             </div>
+          </div>
         </div>
-    );
+      </div>
+    </div>
+  );
 };
 
 export default Restaurants;
