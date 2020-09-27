@@ -47,6 +47,9 @@ const Sidebar = () => {
           <li>
             <Link to="/admin/restaurants">Restaurants</Link>
           </li>
+          <li>
+            <Link to="/restaurant_admins/tables">Tables</Link>
+          </li>
           {/*<li>*/}
           {/*  <Link to="/restaurant_admins/add">Restaurant Admin Add</Link>*/}
           {/*</li>*/}

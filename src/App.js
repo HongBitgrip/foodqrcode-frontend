@@ -12,6 +12,7 @@ import RestaurantTypeForm from "./components/content/RestaurantTypeForm";
 import RestaurantForm from "./components/content/RestaurantForm";
 import Restaurants from "./components/content/Restaurants";
 import Admins from "./components/content/Admins";
+import DiningTable from "./components/content/DiningTable";
 
 function App() {
   return (
@@ -54,6 +55,11 @@ function App() {
           <Route path="/restaurants/add">
             <div className="content">
               <RestaurantForm />
+            </div>
+          </Route>
+          <Route path="/restaurant_admins/tables">
+            <div className="content">
+              <DiningTable />
             </div>
           </Route>
         </Switch>
