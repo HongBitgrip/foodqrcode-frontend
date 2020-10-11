@@ -29,6 +29,55 @@ const TableShape = ({
     }
   }, [isSelected]);
 
+  const onLabelDblClick = (e) => {
+    // at first lets find position of text node relative to the stage:
+    const textPosition = e.target.absolutePosition();
+    // then lets find position of stage container on the page:
+    const stageBox = stageRef.current.container().getBoundingClientRect();
+
+    // so position of inputElement will be the sum of positions above:
+    const areaPosition = {
+      x: stageBox.left + textPosition.x,
+      y: stageBox.top + textPosition.y,
+    };
+    // create inputElement and style it
+    const inputElement = document.createElement("input");
+    document.body.appendChild(inputElement);
+
+    inputElement.value = e.target.attrs.text;
+    inputElement.style.position = "absolute";
+    inputElement.style.top = areaPosition.y + "px";
+    inputElement.style.left = areaPosition.x + "px";
+    inputElement.style.width = e.target.width();
+    inputElement.maxLength = 18;
+
+    inputElement.focus();
+
+    const removeInputElement = () => {
+      document.body.removeChild(inputElement);
+      window.removeEventListener("click", handleOutsideClick);
+    };
+
+    const handleOutsideClick = (e) => {
+      if (e.target !== inputElement) {
+        setText(inputElement.value.trim());
+        removeInputElement();
+      }
+    };
+
+    inputElement.addEventListener("keydown", function (keyEvnt) {
+      // hide on enter
+      if (keyEvnt.keyCode === 13) {
+        setText(inputElement.value.trim());
+        removeInputElement();
+      }
+    });
+
+    // setTimeOut is required, without it the event will be added immediately
+    setTimeout(() => {
+      window.addEventListener("click", handleOutsideClick);
+    });
+  };
   return (
     <React.Fragment>
       <CustomTag
@@ -98,39 +147,7 @@ const TableShape = ({
           fontSize={15}
           fill="black"
           padding={5}
-          onDblClick={(e) => {
-            // at first lets find position of text node relative to the stage:
-            const textPosition = e.target.absolutePosition();
-            // then lets find position of stage container on the page:
-            const stageBox = stageRef.current
-              .container()
-              .getBoundingClientRect();
-
-            // so position of textarea will be the sum of positions above:
-            const areaPosition = {
-              x: stageBox.left + textPosition.x,
-              y: stageBox.top + textPosition.y,
-            };
-            // create textarea and style it
-            const textarea = document.createElement("input");
-            document.body.appendChild(textarea);
-
-            textarea.value = e.target.attrs.text;
-            textarea.style.position = "absolute";
-            textarea.style.top = areaPosition.y + "px";
-            textarea.style.left = areaPosition.x + "px";
-            textarea.style.width = e.target.width();
-
-            textarea.focus();
-
-            textarea.addEventListener("keydown", function (keyEvnt) {
-              // hide on enter
-              if (keyEvnt.keyCode === 13) {
-                setText(textarea.value);
-                document.body.removeChild(textarea);
-              }
-            });
-          }}
+          onDblClick={onLabelDblClick}
         />
       </Label>
     </React.Fragment>

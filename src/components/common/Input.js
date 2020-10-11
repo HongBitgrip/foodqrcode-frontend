@@ -5,7 +5,7 @@ const Input = ({ name, label, error, type, register, ...rest }) => {
   const CustomTag = type === "textarea" ? "textarea" : "input";
   const isCheckBox = type === "checkbox" || type === "radio";
   const labelTag = (
-    <label htmlFor={name} className={isCheckBox && "ml-1 align-middle"}>
+    <label htmlFor={name} className={isCheckBox ? "ml-1 align-middle" : ""}>
       {label}
     </label>
   );

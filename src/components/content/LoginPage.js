@@ -1,5 +1,4 @@
 import React from "react";
-import FormOuter from "../common/FormOuter";
 
 const LoginPage = () => {
   const inputElements = [

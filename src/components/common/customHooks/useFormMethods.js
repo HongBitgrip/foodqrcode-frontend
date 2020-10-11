@@ -15,6 +15,7 @@ export default function useFormMethods(initialValues, schema = null) {
     reset,
     control,
     watch,
+    getValues,
   } = useForm({
     resolver: schema && yupResolver(schema),
   });
@@ -74,5 +75,6 @@ export default function useFormMethods(initialValues, schema = null) {
     watch,
     errors,
     setError,
+    getValues,
   };
 }
