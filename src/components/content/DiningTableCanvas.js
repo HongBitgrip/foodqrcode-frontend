@@ -1,31 +1,10 @@
-import React from "react";
+import React, { useRef } from "react";
 import { Layer, Stage } from "react-konva";
 import TableShape from "./TableShape";
 
-const initialShapes = [
-  {
-    isRect: true,
-    x: 10,
-    y: 10,
-    width: 100,
-    height: 100,
-    fill: "red",
-    id: "rect1",
-  },
-  {
-    isRect: false,
-    x: 150,
-    y: 150,
-    width: 100,
-    height: 100,
-    fill: "green",
-    id: "rect2",
-  },
-];
-
-const DiningTableCanvas = ({ stageWidth }) => {
-  const [shapes, setShapes] = React.useState(initialShapes);
+const DiningTableCanvas = ({ stageWidth, onChange, shapes }) => {
   const [selectedId, selectShape] = React.useState(null);
+  const stageRef = useRef();
 
   const checkDeselect = (e) => {
     // deselect when clicked on empty area
@@ -41,9 +20,11 @@ const DiningTableCanvas = ({ stageWidth }) => {
       height={window.innerHeight}
       onMouseDown={checkDeselect}
       onTouchStart={checkDeselect}
+      ref={stageRef}
     >
       <Layer>
         {shapes.map((shape, i) => {
+          shape.id = i;
           return (
             <TableShape
               isRect={shape.isRect}
@@ -53,11 +34,8 @@ const DiningTableCanvas = ({ stageWidth }) => {
               onSelect={() => {
                 selectShape(shape.id);
               }}
-              onChange={(newAttrs) => {
-                const shapesClone = [...shapes];
-                shapesClone[i] = newAttrs;
-                setShapes(shapesClone);
-              }}
+              stageRef={stageRef}
+              onChange={(newAttrs) => onChange(newAttrs, i)}
             />
           );
         })}
