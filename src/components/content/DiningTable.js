@@ -1,9 +1,11 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { pageTitleState } from "../NavBar";
 import { useRecoilState } from "recoil";
 import DiningTableCanvas from "./DiningTableCanvas";
 import { useContainerDimensions } from "../common/customHooks/useContainerDimesion";
 import useFormMethods from "../common/customHooks/useFormMethods";
+import { BsSquareFill, BsCircleFill } from "react-icons/bs";
+import { SketchPicker } from "react-color";
 
 const initialShapes = [
   {
@@ -12,7 +14,7 @@ const initialShapes = [
     y: 10,
     width: 100,
     height: 100,
-    fill: "red",
+    fill: "#ff0000",
   },
   {
     isRect: false,
@@ -20,15 +22,20 @@ const initialShapes = [
     y: 150,
     width: 100,
     height: 100,
-    fill: "green",
+    fill: "#30aa30",
   },
 ];
 
 const DiningTable = () => {
   const [pageTitle, setPageTitle] = useRecoilState(pageTitleState);
   const [shapes, setShapes] = React.useState(initialShapes);
+  const [selectedId, setSelectedId] = useState(null);
+  const [color, setColor] = useState("#ffff");
 
-  const initialValues = { tableSize: "", area: 2 };
+  const initialValues = {
+    tableSize: "",
+    area: { value: 1, label: "1st floor" },
+  };
   const { renderInput, renderSelect, getValues } = useFormMethods(
     initialValues
   );
@@ -60,6 +67,16 @@ const DiningTable = () => {
     setShapes([...shapes, newShape]);
   };
 
+  const onPickColorChange = (pickedColor) => {
+    setColor(pickedColor);
+    const newShapes = shapes.map((shape) => {
+      if (shape.id === selectedId) {
+        shape.fill = pickedColor.hex;
+      }
+      return shape;
+    });
+    setShapes(newShapes);
+  };
   return (
     <div className="row">
       <div className="card col-md-3">
@@ -71,10 +88,10 @@ const DiningTable = () => {
             "number"
           )}
           <button className="btn btn-primary" onClick={() => addShape(true)}>
-            Add Rectangle
+            Add <BsSquareFill />
           </button>
           <button className="btn btn-default" onClick={() => addShape(false)}>
-            Add circle
+            Add <BsCircleFill />
           </button>
           {renderSelect(
             "area",
@@ -85,6 +102,7 @@ const DiningTable = () => {
             ],
             false
           )}
+          <SketchPicker color={color} onChange={onPickColorChange} />
         </div>
       </div>
       <div className="card col-md-9">
@@ -97,6 +115,10 @@ const DiningTable = () => {
               shapesClone[i] = newAttrs;
               setShapes(shapesClone);
             }}
+            color={color}
+            setColor={setColor}
+            selectedId={selectedId}
+            setSelectedId={setSelectedId}
           />
         </div>
       </div>

@@ -19,6 +19,7 @@ const TableShape = ({
   const [height, setHeight] = useState(shapeProps.height);
   const [width, setWidth] = useState(shapeProps.width);
   const [text, setText] = useState("New Table");
+
   const GAP = 5;
 
   React.useEffect(() => {
@@ -66,8 +67,8 @@ const TableShape = ({
     };
 
     inputElement.addEventListener("keydown", function (keyEvnt) {
-      // hide on enter
-      if (keyEvnt.keyCode === 13) {
+      const ENTER_KEY = 13;
+      if (keyEvnt.keyCode === ENTER_KEY) {
         setText(inputElement.value.trim());
         removeInputElement();
       }
@@ -78,6 +79,44 @@ const TableShape = ({
       window.addEventListener("click", handleOutsideClick);
     });
   };
+  const onTransformEnd = (e) => {
+    // transformer is changing scale of the node
+    // and NOT its width or height
+    // but in the store we have only width and height
+    // to match the data better we will reset scale on transform end
+    const node = shapeRef.current;
+    const scaleX = node.scaleX();
+    const scaleY = node.scaleY();
+    const newHeight = Math.max(50, node.height() * scaleY);
+
+    // we will reset it back
+    node.scaleX(1);
+    node.scaleY(1);
+
+    //set properties for label
+    setX(node.x());
+    setY(node.y());
+    setHeight(newHeight);
+    setWidth(Math.max(50, node.width() * scaleX));
+
+    onChange({
+      ...shapeProps,
+      x: node.x(),
+      y: node.y(),
+      // set minimal value
+      width: Math.max(50, node.width() * scaleX),
+      height: newHeight,
+    });
+  };
+  const onDragEnd = (e) => {
+    setX(e.target.x());
+    setY(e.target.y());
+    onChange({
+      ...shapeProps,
+      x: e.target.x(),
+      y: e.target.y(),
+    });
+  };
   return (
     <React.Fragment>
       <CustomTag
@@ -86,44 +125,8 @@ const TableShape = ({
         ref={shapeRef}
         {...shapeProps}
         draggable
-        onDragEnd={(e) => {
-          setX(e.target.x());
-          setY(e.target.y());
-          onChange({
-            ...shapeProps,
-            x: e.target.x(),
-            y: e.target.y(),
-          });
-        }}
-        onTransformEnd={(e) => {
-          // transformer is changing scale of the node
-          // and NOT its width or height
-          // but in the store we have only width and height
-          // to match the data better we will reset scale on transform end
-          const node = shapeRef.current;
-          const scaleX = node.scaleX();
-          const scaleY = node.scaleY();
-          const newHeight = Math.max(50, node.height() * scaleY);
-
-          // we will reset it back
-          node.scaleX(1);
-          node.scaleY(1);
-
-          //set properties for label
-          setX(node.x());
-          setY(node.y());
-          setHeight(newHeight);
-          setWidth(Math.max(50, node.width() * scaleX));
-
-          onChange({
-            ...shapeProps,
-            x: node.x(),
-            y: node.y(),
-            // set minimal value
-            width: Math.max(50, node.width() * scaleX),
-            height: newHeight,
-          });
-        }}
+        onDragEnd={onDragEnd}
+        onTransformEnd={onTransformEnd}
       />
       {isSelected && (
         <Transformer
@@ -148,6 +151,7 @@ const TableShape = ({
           fill="black"
           padding={5}
           onDblClick={onLabelDblClick}
+          onTap={onLabelDblClick}
         />
       </Label>
     </React.Fragment>

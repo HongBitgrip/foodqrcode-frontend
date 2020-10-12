@@ -1,5 +1,5 @@
 import React from "react";
-import { observer } from "mobx-react";
+
 import { atom, useRecoilValue } from "recoil";
 
 export const pageTitleState = atom({
@@ -7,7 +7,7 @@ export const pageTitleState = atom({
   default: "",
 });
 
-const NavBar = observer(() => {
+const NavBar = () => {
   const pageTitle = useRecoilValue(pageTitleState);
   return (
     <nav className="navbar navbar-expand-lg navbar-transparent bg-primary navbar-absolute">
@@ -83,6 +83,6 @@ const NavBar = observer(() => {
       </div>
     </nav>
   );
-});
+};
 
 export default NavBar;
