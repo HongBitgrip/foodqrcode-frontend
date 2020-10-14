@@ -14,6 +14,7 @@ const initialShapes = [
     y: 10,
     width: 100,
     height: 100,
+    text: "Rectangle",
     fill: "#ff0000",
   },
   {
@@ -22,6 +23,7 @@ const initialShapes = [
     y: 150,
     width: 100,
     height: 100,
+    text: "Round",
     fill: "#30aa30",
   },
 ];
@@ -62,6 +64,7 @@ const DiningTable = () => {
       y: isRect ? 10 : 60,
       width: shapeSize,
       height: shapeSize,
+      text: "New Table",
       fill: "blue",
     };
     setShapes([...shapes, newShape]);

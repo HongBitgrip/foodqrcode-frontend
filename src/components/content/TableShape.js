@@ -14,11 +14,7 @@ const TableShape = ({
 
   const CustomTag = isRect ? "Rect" : "Ellipse";
 
-  const [x, setX] = useState(shapeProps.x);
-  const [y, setY] = useState(shapeProps.y);
-  const [height, setHeight] = useState(shapeProps.height);
-  const [width, setWidth] = useState(shapeProps.width);
-  const [text, setText] = useState("New Table");
+  const { x, y, height, width, text } = shapeProps;
 
   const GAP = 5;
 
@@ -61,7 +57,7 @@ const TableShape = ({
 
     const handleOutsideClick = (e) => {
       if (e.target !== inputElement) {
-        setText(inputElement.value.trim());
+        onChange({ ...shapeProps, text: inputElement.value.trim() });
         removeInputElement();
       }
     };
@@ -69,7 +65,7 @@ const TableShape = ({
     inputElement.addEventListener("keydown", function (keyEvnt) {
       const ENTER_KEY = 13;
       if (keyEvnt.keyCode === ENTER_KEY) {
-        setText(inputElement.value.trim());
+        onChange({ ...shapeProps, text: inputElement.value.trim() });
         removeInputElement();
       }
     });
@@ -94,11 +90,6 @@ const TableShape = ({
     node.scaleY(1);
 
     //set properties for label
-    setX(node.x());
-    setY(node.y());
-    setHeight(newHeight);
-    setWidth(Math.max(50, node.width() * scaleX));
-
     onChange({
       ...shapeProps,
       x: node.x(),
@@ -109,8 +100,6 @@ const TableShape = ({
     });
   };
   const onDragEnd = (e) => {
-    setX(e.target.x());
-    setY(e.target.y());
     onChange({
       ...shapeProps,
       x: e.target.x(),
